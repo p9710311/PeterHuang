@@ -1,0 +1,36 @@
+<div class="row">
+        <!-- form start -->
+        <form class="form-horizontal" id="thisForm">
+            <input type="hidden" Name="Id" id="Id" value="{{.m.Id}}">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">射出機編號</label>
+                <div class="col-sm-8">
+                    <input type="text" name="MachineNumber" class="form-control" placeholder="" value="{{.m.MachineNumber}}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">射出機名稱</label>
+                <div class="col-sm-8">
+                    <input type="text" name="MachineName" class="form-control" placeholder="" value="{{.m.MachineName}}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">射出機品牌</label>
+                <div class="col-sm-8">
+                    <input type="text" name="Brand" class="form-control" placeholder="" value="{{.m.Brand}}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">射出機 ID</label>
+                <div class="col-sm-8">
+                    <select name="MacAddress" id="Collections" class="form-control"></select>
+                </div>
+            </div>
+            <!-- <div class="form-group">
+                <label class="col-sm-2 control-label">Seq</label>
+                <div class="col-sm-8">
+                    <input type="text" name="Seq" class="form-control" placeholder="" value="{{.m.Seq}}">
+                </div>
+            </div> -->
+        </form>
+    </div>

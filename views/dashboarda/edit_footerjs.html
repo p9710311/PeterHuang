@@ -1,0 +1,166 @@
+<!-- 驗證外掛 -->
+<script src="/static/plugins/jquery-validation/jquery.validate.min.js"></script>
+<script src="/static/plugins/jquery-validation/localization/messages_zh.min.js"></script>
+<!-- 針對當前主題進行簡單封裝，精簡程式碼 -->
+<script src="/static/sdtheme/scripts/sdvalidate.js"></script>
+<script>
+	var index = parent.layer.getFrameIndex(window.name); //先得到當前iframe層的索引
+   $(function () {		
+        //驗證
+        validateInfo();  
+        numberSelectInit(); 
+       
+        macSelectInit();   
+        nameSelectInit(); 
+        moldSelectInit();
+        // qtySelectInit();
+    })	
+
+    function ChangeFunction(){
+        var x = document.getElementById("Numbers").value;
+        console.log(x);
+        var macx = "mac"+x;
+        var namex = "name"+x;
+        console.log(macx);
+        console.log(namex);
+        document.getElementById(macx).selected = "true";
+        document.getElementById(namex).selected = "true";
+        
+        
+        //nameSelectInit(x);
+      
+        
+    }
+    
+    function macSelectInit(){
+        var url = '{{urlfor "MachineController.DataList"}}';
+        var $select =$("#Macs");
+        $select.html('');
+        $.sdpost(url,{},function(re){
+            if(re.code === 0){          
+                var html=[]
+                $(re.obj).each(function(i,e){
+                   
+                        html.push('<option id="mac'+e.MachineNumber+'" disabled value="'+e.MacAddress+'">'+e.MacAddress+' <<---------->> '+e.MachineNumber+'</option>')
+                   
+                });
+                $select.html(html.join(''));
+              //  $select.selectpicker({liveSearch:true});
+                // $select.selectpicker('val',selecteds.split(','));
+            }
+            else{
+                layer.alert("獲取資料失敗",{icon:2,title:'失敗'})
+            }
+        });
+    }
+    function nameSelectInit(){
+        var url = '{{urlfor "MachineController.DataList"}}';
+        var $select =$("#Names");
+        $select.html('');
+        $.sdpost(url,{},function(re){
+            if(re.code === 0){               
+                var html=[]
+                $(re.obj).each(function(i,e){
+                 
+                        html.push('<option id="name'+e.MachineNumber+'" disabled value="'+e.MachineName+'">'+e.MachineName+' <<---------->> '+e.MachineNumber+'</option>')
+                       
+                        
+                });
+                $select.html(html.join(''));
+               // $select.selectpicker({liveSearch:true});
+               // $select.selectpicker('val',selecteds.split(','));
+            }
+            else{
+                layer.alert("獲取資料失敗",{icon:2,title:'失敗'})
+            }
+        });
+    }
+    function numberSelectInit(){
+        var url = '{{urlfor "MachineController.DataList"}}';
+        var $select =$("#Numbers");
+        $select.html('');
+        $.sdpost(url,{},function(re){
+            if(re.code === 0){               
+                var html=[]
+                $(re.obj).each(function(i,e){
+                    html.push('<option value="'+e.MachineNumber+'">'+e.MachineNumber+'</option>')
+                });
+                $select.html(html.join(''));
+                $select.selectpicker({liveSearch:true});
+                //$select.selectpicker('val',selecteds.split(','));
+            }
+            else{
+                layer.alert("獲取資料失敗",{icon:2,title:'失敗'})
+            }
+        });
+    }
+    function moldSelectInit(){
+        var url = '{{urlfor "MoldController.DataList"}}';
+        var $select =$("#Molds");
+        $select.html('');
+        $.sdpost(url,{},function(re){
+            if(re.code === 0){               
+                var html=[]
+                $(re.obj).each(function(i,e){
+                    html.push('<option value="'+e.Number+'">'+e.Number+'</option>')
+                });
+                $select.html(html.join(''));
+                $select.selectpicker({liveSearch:true});
+               // $select.selectpicker('val',selecteds.split(','));
+            }
+            else{
+                layer.alert("獲取資料失敗",{icon:2,title:'失敗'})
+            }
+        });
+    }
+    // function qtySelectInit(){
+    //     var url = '{{urlfor "ScheduleController.DataList"}}';
+    //     var $select =$("#Qtys");
+    //     $select.html('');
+    //     $.sdpost(url,{},function(re){
+    //         if(re.code === 0){               
+    //             var html=[]
+    //             $(re.obj).each(function(i,e){
+    //                 html.push('<option value="'+e.Qty+'">'+e.MoldNumber+'</option>')
+    //             });
+    //             $select.html(html.join(''));
+    //             $select.selectpicker({liveSearch:true});
+    //             $select.selectpicker('val',selecteds.split(','));
+    //         }
+    //         else{
+    //             layer.alert("獲取資料失敗",{icon:2,title:'失敗'})
+    //         }
+    //     });
+    // }
+
+    function validateInfo() {
+        var $thisForm = $('#thisForm');
+        $thisForm.sdvalidate({
+            // rules: {
+            //     Name: {
+            //         maxlength: 32,
+            //         required: true
+            //     }
+            // },
+            // messages: {},
+            submitHandler: function (form) {
+				var url ='{{ urlfor "DashboardAController.Edit"}}'
+				var data = $thisForm.serialize();				
+				$.sdpost(url,data,function(re){
+					if(re.code === 0){
+						parent.layer.msg(re.msg)
+						parent.refresh(re.obj)
+						parent.layer.close(index)
+					}else{
+						parent.layer.alert(re.msg,{icon:2,title:'失敗'})
+					}
+				});
+               return false;
+            }
+        });
+    }
+
+    function FormSubmit() {
+        $("#thisForm").submit();		
+    }
+</script>

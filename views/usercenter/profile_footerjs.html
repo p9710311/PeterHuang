@@ -1,0 +1,163 @@
+<!-- 驗證外掛 -->
+<script src="/static/plugins/jquery-validation/jquery.validate.min.js"></script>
+<script src="/static/plugins/jquery-validation/localization/messages_zh.min.js"></script>
+<!-- 針對當前主題進行簡單封裝，精簡程式碼 -->
+<script src="/static/sdtheme/scripts/sdvalidate.js"></script>
+<!-- 檔案上傳外掛 -->
+<script src="/static/plugins/ajaxfileupload.js"></script>
+<!-- 圖片上傳外掛 -->
+<script src="/static/plugins/bootstrap-fileinput-jasny/bootstrap-fileinput.js"></script>
+<script>
+    $(function () {
+        pageInit();
+    });
+    function pageInit() {
+        //圖片上傳初始化
+        updloadCtrolInit();
+        //基本資訊表單驗證
+        validatebasicInfo();
+        //密碼錶單驗證
+        validatepwdInfo();
+    }
+    //image upolad init
+    function updloadCtrolInit() {
+        //多個圖共用一套上傳程式碼
+        $(".fileinput").on('change.bs.fileinput', function () {
+            var $this = $(this);
+            var fileinput = $("input[type='file']", this);
+            // file 控制項的id
+            var inputId = fileinput.attr('id');
+            //獲取隱藏用於儲存圖片地址的input
+            var hiddeninput = $("#" + inputId.replace('input', ''));
+            $.ajaxFileUpload({
+                url: '{{ urlfor "UserCenterController.UploadImage" }}',
+                secureuri: false,
+                fileElementId: inputId,
+                dataType: 'json',
+                data: { type: 1 }, //用來傳file其他的值
+                complete: function () {
+                    //結束後做一次驗證
+                    hiddeninput.valid();
+                },
+                success: function (re, status) {
+                    if (re.code === 0) {
+                        hiddeninput.val(re.obj);
+                    }
+                    else {
+                        parent.layer.alert(re.msg, { icon: 2, title: '錯誤' });
+                        $this.fileinput('clear');
+                        //呼叫clear方法時不激發事件
+                        hiddeninput.val('');
+                    }
+                },
+                error: function (XHR, status, e) { 
+                    sdtheme.alertXHRError(XHR);                  
+                    $this.fileinput('clear');
+                    //呼叫clear方法時不激發事件
+                    hiddeninput.val('');
+                }
+            });
+        });
+        //多個圖片共用一套上傳程式碼,在上傳程式碼的clear事件裡，清空圖片地址
+        $(".fileinput").on('clear.bs.fileinput', function () {
+            var inputId = $("input[type='file']", this).attr('id');
+            var hiddeninput = $("#" + inputId.replace('input', ''));
+            hiddeninput.val('');
+            //這裡驗證
+            //hiddeninput.valid();
+        });
+
+    }
+    //正規表示式驗證
+    jQuery.validator.methods.mobile = function (value, element, param) {
+        //如果為空，直接過
+        if (value.length == 0) return true;
+        if (/^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,5-9]))\d{8}$/.test(value)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    //表單驗證及AJAX提交
+    function validatebasicInfo() {
+        var $thisForm = $('#thisForm');
+        $thisForm.sdvalidate({
+            rules: {
+                RealName: {
+                    maxlength: 16,
+                    required: true
+                },
+                Mobile: {
+                    mobile: true,
+                    maxlength: 16,
+                },
+                Email: {
+                    email: true,
+                    maxlength: 256,
+                },
+                ImageUrl: {
+                    required: true                   
+                },                          
+            },
+            messages: {
+                Mobile: {
+                    mobile: "請輸入正確的手機號",
+                },
+            },
+            submitHandler: function (form) {
+                var url = '{{ urlfor "UserCenterController.BasicInfoSave"}}'
+                var data = $thisForm.serialize();
+                $.sdpost(url, data, function (re) {
+                    if (re.code === 0) {
+                        layer.msg(re.msg,{icon:1,title:'成功',time:1000},function(){
+                            window.location.reload();
+                        });                        
+                    } else {
+                        layer.alert(re.msg, { icon: 2, title: '失敗' })
+                    }
+                });
+                return false;
+            }
+        });
+    }
+    //表單驗證及AJAX提交
+    function validatepwdInfo() {
+        var $thisForm = $('#pwdForm');
+        $thisForm.sdvalidate({
+            rules: {               
+                UserPwd: {
+                    required: true           
+                },
+                NewUserPwd: {
+                    required: true           
+                },
+                ConfirmPwd: {
+                    required: true,
+                    equalTo:"#NewUserPwd"          
+                },                          
+            },
+            messages: {
+                Mobile: {
+                    mobile: "請輸入正確的手機號",
+                },
+                ConfirmPwd: {
+                    equalTo: "兩次輸入的新密碼不一致",
+                },
+            },
+            submitHandler: function (form) {
+                var url = '{{ urlfor "UserCenterController.PasswordSave"}}'
+                var data = $thisForm.serialize();
+                $.sdpost(url, data, function (re) {
+                    if (re.code === 0) {
+                        layer.msg(re.msg);                        
+                    } else {
+                        layer.alert(re.msg, { icon: 2, title: '失敗' })
+                    }
+                });
+                return false;
+            }
+        });
+    }
+
+  
+</script>

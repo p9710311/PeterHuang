@@ -1,0 +1,16 @@
+body{
+    background: #eee;
+}
+.login-box-body{
+    background-color: #fff;
+    border-radius: 12px;
+}
+.welcomeText{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.welcomeText > p {
+    font-size: 12px;
+}

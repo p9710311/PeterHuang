@@ -1,0 +1,114 @@
+<!-- treetable外掛 -->
+<script src="/static/plugins/jquery-treetable/js/jquery.treetable.js"></script>
+<script>
+    var $treeGrid = $("#treeGrid");
+    //初始化載入
+    $(function () {
+        pageInit();        
+    });
+    //初始化頁面
+    function pageInit() {
+        dataGridInit();
+    }   
+    //初始化樹形表格
+    function dataGridInit() {
+        //從伺服器端獲取資料
+        var url = '{{ urlfor "ResourceController.TreeGrid"}}'
+        $.sdpost(url, {}, function (re) {
+            if (re.code === 0) {
+                //拼接表格               
+                fillTable(re.obj)
+                //treetable外掛初始化
+                treeGridInit();              
+            } else {
+                layer.alert("資料獲取失敗", { icon: 2, title: '錯誤' })
+            }
+        });
+    }  
+    //將資料拼接到表格中 
+    function fillTable(data) {
+        $('tbody', $treeGrid).html('');
+        $treeGrid.treetable('destroy');
+        var html = [];
+        $(data).each(function (i, e) {
+            var parentid = 0
+            if (e.Parent) {
+                parentid = e.Parent.Id
+            }
+            html.push('<tr data-tt-id="' + e.Id + '" data-tt-parent-id="' + parentid + '" data-SonNum="'+e.SonNum+'">');
+            html.push('<td class="align-center">');
+            if ('0' === "0") {
+                html.push('<input type="checkbox"  ');
+            } else {
+                html.push('<input type="radio" ');
+            }
+            html.push(' name="Id" class="chkSingle" value="' + e.Id + '"');
+            if (setSelection(e.Id) ) {
+                html.push(' checked="checked" ');
+            }           
+            html.push('  />');
+            html.push("</td>");
+
+            html.push('<td class="ellipsis" title="' + e.Name + '">' + e.Name + '</td>');
+            html.push('<td class="align-center">');
+            if (e.Icon && e.Icon.length > 0) {
+                html.push('<label class="label label-success"><i class="' + e.Icon + '"></i></label>')
+            }
+            html.push('</td>');
+            html.push('<td class="align-center">' +GetRtypeText(e.Rtype) + '</td>');
+            html.push('<td class="ellipsis" title="' + e.LinkUrl + '">' + e.LinkUrl + '</td>');
+            html.push('</tr>');
+        });
+        $('tbody', $treeGrid).html(html.join(''));
+    }
+    function GetRtypeText(value) {
+        var texts = [{ Text: '區域', Value: 0 }, { Text: '選單', Value: 1 }, { Text: '按鈕', Value: 2 } ]
+        return sdtheme.showenum(value, texts);
+    } 
+    //獲取選擇項
+    function getSelections() {
+        var ids = []
+        $("tbody :checked", $treeGrid).each(function (i, e) {
+            ids.push($(e).val());
+        });
+        return ids;
+    }    
+    function setSelection(Id) {
+        var check = false;
+        var selectedIds='{{.selectedIds}}'
+        var ids = selectedIds.split(',');      
+        $.each(ids, function (i, e) {
+            if (e == Id) {
+                check = true;
+            }
+        })
+        return check;
+    }
+    function treeGridInit() {
+        //載入,初始化
+        $treeGrid.treetable({
+            expandable: true,
+            clickableNodeNames: false,
+            column: 1,//在第2列單元格形成樹結構
+            onNodeCollapse: function () {
+                //儲存展開的節點id到cookie
+                sdtheme.saveExpandStatus('treeGrid');
+            },
+            onNodeExpand: function () {
+                //儲存展開的節點id到cookie
+                sdtheme.saveExpandStatus('treeGrid');
+            },
+        });
+        //從cookie裡讀取展開的節點id資料並使用
+        sdtheme.loadExpandStatus('treeGrid');      
+        //全選 單選初始化
+        rms.chkAllSingleInit("#treeGrid .chkAll", "#treeGrid .chkSingle");
+        //
+        $(".treegridexpend").off('click').on('click', function () {
+            $($(this).attr('data-target')).treetable('expandAll');
+        });
+        $(".treegridcollapse").off('click').on('click', function () {
+            $($(this).attr('data-target')).treetable('collapseAll');
+        });
+    }    
+</script>

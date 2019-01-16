@@ -1,0 +1,64 @@
+<!-- iCheck -->
+<script src="/static/plugins/icheck/icheck.min.js"></script>
+<!-- 驗證外掛 -->
+<script src="/static/plugins/jquery-validation/jquery.validate.min.js"></script>
+<script src="/static/plugins/jquery-validation/localization/messages_zh.min.js"></script>
+<!-- 針對當前主題進行簡單封裝，精簡程式碼 -->
+<script src="/static/sdtheme/scripts/sdvalidate.js"></script>
+<script>
+    $(function () {
+        pageInit();        
+    })
+    function pageInit() {
+        $('input').iCheck({
+            checkboxClass: 'icheckbox_square-blue',
+            radioClass: 'iradio_square-blue',
+            increaseArea: '20%' // optional
+        });
+        //驗證
+        validateInfo();
+    }
+    //表單驗證及AJAX提交
+    function validateInfo() {
+        var $thisForm = $('#thisForm');
+        $thisForm.sdvalidate({
+            rules: {
+                UserName: {
+                    maxlength: 24,
+                    required: true
+                },
+                UserPwd: {
+                    maxlength: 24,
+                    required: true
+                },
+            },
+            messages: {
+                UserName: {
+                    maxlength: "長度不大於24位",
+                    required: "請輸入使用者名稱"
+                },
+                UserPwd: {
+                    maxlength: "長度不大於24位",
+                    required: "請輸入密碼"
+                },
+
+            },
+            submitHandler: function (form) {
+                var url = '{{ urlfor "HomeController.DoLogin"}}'
+                var data = $thisForm.serialize();
+                $.sdpost(url, data, function (re) {
+                    if (re.code === 0) {                       
+                        window.location.href='{{ urlfor "HomeController.Index"}}'                                         
+                    } else {
+                        layer.alert(re.msg, { icon: 2, title: '失敗' })
+                    }
+                });
+                return false;
+            }
+        });
+    }
+
+    function FormSubmit() {
+        $("#thisForm").submit();
+    }
+</script>

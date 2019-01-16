@@ -1,0 +1,141 @@
+<!-- 驗證外掛 -->
+<script src="/static/plugins/jquery-validation/jquery.validate.min.js"></script>
+<script src="/static/plugins/jquery-validation/localization/messages_zh.min.js"></script>
+<!-- 針對當前主題進行簡單封裝，精簡程式碼 -->
+<script src="/static/sdtheme/scripts/sdvalidate.js"></script>
+<script>
+    var index = parent.layer.getFrameIndex(window.name); //先得到當前iframe層的索引
+    $(function () {
+        pageInit();        
+    })
+    function pageInit() {        
+        //父節點下拉初始化
+        ParentSelectInit('{{.parent}}');
+        //附值
+        $("#Rtype").selectpicker('val','{{.m.Rtype}}');  
+        //驗證
+        validateInfo();
+    }
+    function ParentSelectInit(curPid){
+        var url = '{{urlfor "ResourceController.ParentTreeGrid"}}'
+        $.sdpost(url, { id: $("#Id").val() }, function (re) {
+            if (re.code === 0) {
+                var html = ['<option value="0">- 無 -</option>']
+                var $select = $("#Parent");
+                $select.html('')
+                $(re.obj).each(function (i, e) {
+                    //下拉選單裡只顯示區域和選單
+                    if(e.Rtype >1){
+                        return true
+                    }
+                    var str = new Array(e.Level * 4).join("&nbsp;");
+                    if (e.Level > 0)
+                        str = str + "|-";
+                    html.push('<option value="' + e.Id + '"');
+                    if (e.HtmlDisabled == 1) {
+                        html.push('disabled');
+                    }
+                    html.push('>' + str + e.Name + '</option>')
+                });
+                $select.html(html.join(''));
+                $select.selectpicker();
+                $select.selectpicker('val',curPid);
+            } else {
+                parent.layer.alert("獲取資源樹失敗", { icon: 2, title: '失敗' })
+            }
+        });
+    }
+    //區域只能是一級節點，不能有父節點
+    jQuery.validator.methods.RtypeCheck = function (value, element, param) {
+        //如果為空，直接過
+        if (value.length == 0) return true;
+        var p = $("#Parent").selectpicker('val')
+        if (value === "0" && p!="0"){
+            return false
+        }
+        return true
+    }
+    //當UrlFor不為空時，UrlLink也不能為空，UrlLink是根據路由自動生成
+    jQuery.validator.methods.UrlLinkCheck = function (value, element, param) {
+        //如果為空，直接過
+        var $ctrUrlFor=$("#UrlFor");
+        var urlfor = $.trim($ctrUrlFor.val());
+        if (urlfor.length == 0){
+            return true;   
+        }  else{
+            var retval = false;
+            var url='{{urlfor "ResourceController.CheckUrlFor"}}'
+            $.sdpost(url,{urlfor:urlfor},function(re){
+                if(re.code === 0){
+                    $("#LinkUrl").val(re.obj);
+                    retval = true;
+                }else{
+                    $("#LinkUrl").val('');
+                }
+            },false)            
+            return retval
+        }
+    }
+    //表單驗證及AJAX提交
+    function validateInfo() {
+        var $thisForm = $('#thisForm');
+        $thisForm.sdvalidate({
+            rules: {
+                Name: {
+                    maxlength: 32,
+                    required: true
+                },
+                Icon: {
+                    maxlength: 32,                   
+                },
+                Seq: {
+                    digits:true,
+                    max: 999999,
+                    required: true
+                },
+                Rtype:{
+                    required: true,
+                    RtypeCheck:true
+                },
+                LinkUrl:{
+                    UrlLinkCheck:true
+                }
+            },
+            messages: {
+                Rtype:{                   
+                    RtypeCheck:"區域只能是一級節點，不能有父節點"
+                },
+                LinkUrl:{
+                    UrlLinkCheck:"您輸入的UrlFor值並不能解析為有效的地址"
+                }
+            },
+            submitHandler: function (form) {
+                var url = '{{ urlfor "ResourceController.Edit"}}'
+                var data = $thisForm.serialize();
+                $.sdpost(url, data, function (re) {
+                    if (re.code === 0) {
+                        parent.layer.msg(re.msg)
+                        //重新整理，並將所編輯的節點展開
+                        parent.refresh(re.obj,true)
+                        parent.layer.close(index)
+                    } else {
+                        parent.layer.alert(re.msg, { icon: 2, title: '失敗' })
+                    }
+                });
+                return false;
+            }
+        });
+    }
+    function chkUrlFor(){
+        $("#LinkUrl").valid();
+    }
+    function urlForChange(ctrl){
+        var v = $.trim($(ctrl).val()).replace(/，| /g,",")
+        $(ctrl).val(v)
+        chkUrlFor();
+    }
+    function FormSubmit() {
+        $("#thisForm").submit();
+    }
+
+</script>

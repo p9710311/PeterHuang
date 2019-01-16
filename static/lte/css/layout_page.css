@@ -1,0 +1,28 @@
+
+.index-slogan{
+    position: absolute;
+    left: 50%;
+    line-height: 75px;
+    font-size: 55px;
+    transform: translateX(-50%);
+    color: #000;
+    font-weight: bold;
+    white-space:nowrap;
+}
+
+.index-slogan > h1 {
+    margin: 0px;
+}
+
+@media (max-width: 768px){
+    .main-slogan{
+        position: absolute;
+        left: 50%;
+        line-height: 75px;
+        font-size: 35px;
+        transform: translateX(-50%);
+        color: #000;
+        font-weight: bold;
+        
+    }
+}
