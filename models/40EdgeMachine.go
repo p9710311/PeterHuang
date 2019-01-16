@@ -20,14 +20,14 @@ type MachineQueryParam struct {
 
 // Machine 實體類
 type Machine struct {
-	Id            int
-	MacAddress    string
-	MachineName   string
-	MachineNumber string
-	Brand         string
-	Seq           int
-	// MachineMoldScheduleRel []*MachineMoldScheduleRel `orm:"reverse(many)"`
-	Modified time.Time `orm:"auto_now;type(datetime)"`
+	Id                     int
+	MacAddress             string
+	MachineName            string
+	MachineNumber          string
+	Brand                  string
+	Seq                    int
+	MachineMoldScheduleRel []*MachineMoldScheduleRel `orm:"reverse(many)"`
+	Modified               time.Time                 `orm:"auto_now;type(datetime)"`
 }
 
 // CollectionPageList 獲取分頁數據

@@ -186,12 +186,16 @@ func (c *ScheduleController) Edit() {
 	}
 
 	c.Data["m"] = m
-	//獲取關聯的roleId列表
+	//獲取關聯
 	var moldIds []string
+	var machineIds []string
 	for _, item := range m.MachineMoldScheduleRel {
 		moldIds = append(moldIds, strconv.Itoa(item.Mold.Id))
+		machineIds = append(machineIds, strconv.Itoa(item.Machine.Id))
 	}
 	c.Data["molds"] = strings.Join(moldIds, ",")
+	c.Data["machines"] = strings.Join(machineIds, ",")
+
 	c.setTpl("schedule/edit.html", "shared/layout_pullbox.html")
 	c.LayoutSections = make(map[string]string)
 	c.LayoutSections["footerjs"] = "schedule/edit_footerjs.html"
@@ -226,10 +230,17 @@ func (c *ScheduleController) Save() {
 
 	//添加關係
 	var relations []models.MachineMoldScheduleRel
+	//var relations2 []models.MachineMoldScheduleRel
 	for _, moldId := range m.MoldIds {
 		r := models.Mold{Id: moldId}
 		relation := models.MachineMoldScheduleRel{Schedule: &m, Mold: &r}
 		relations = append(relations, relation)
+	}
+
+	for _, machineId := range m.MachineIds {
+		p := models.Machine{Id: machineId}
+		relation2 := models.MachineMoldScheduleRel{Schedule: &m, Machine: &p}
+		relations = append(relations, relation2)
 	}
 
 	if len(relations) > 0 {

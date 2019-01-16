@@ -22,8 +22,10 @@ type Schedule struct {
 	TimeStart              string
 	TimeEnd                string
 	MachineMoldScheduleRel []*MachineMoldScheduleRel `orm:"reverse(many)"`
-	// MachineIds             []int                     `orm:"-" form:"MachineIds"`
-	MoldIds []int `orm:"-" form:"MoldIds"`
+	MoldIds                []int                     `orm:"-" form:"MoldIds"`
+	MoldId                 int
+	MachineIds             []int `orm:"-" form:"MachineIds"`
+	MachineId              int
 }
 
 // SchedulePageList 獲取分頁數據
