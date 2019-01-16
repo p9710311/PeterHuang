@@ -11,7 +11,7 @@ func (a *Collection) TableName() string {
 	return CollectionTBName()
 }
 
-// CollectionQueryParam 用於查詢的類 Peter first Git
+// CollectionQueryParam 用於查詢的類
 type CollectionQueryParam struct {
 	BaseQueryParam
 	MacAddressLike string
