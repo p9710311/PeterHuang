@@ -7,7 +7,7 @@ import (
 
 // init 初始化
 func init() {
-	orm.RegisterModel(new(BackendUser), new(Resource), new(Role), new(RoleResourceRel), new(RoleBackendUserRel), new(Schedule), new(DashboardA), new(Collection), new(Machine), new(Mold), new(MachineMoldScheduleRel))
+	orm.RegisterModel(new(BackendUser), new(Resource), new(Role), new(RoleResourceRel), new(RoleBackendUserRel), new(Schedule), new(DashboardA), new(Collection), new(Machine), new(Mold), new(MachineMoldScheduleRel), new(MachineCollectionRel))
 }
 
 // TableName 下面是統一的表名管理
@@ -74,4 +74,9 @@ func CollectionMachineRelTBName() string {
 // ScheduleRel
 func MachineMoldScheduleRelTBName() string {
 	return TableName("40_machine_mold_scheule")
+}
+
+// MachineCollection
+func MachineCollectionRelTBName() string {
+	return TableName("40_machine_collection")
 }

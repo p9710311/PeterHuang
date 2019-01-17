@@ -19,13 +19,13 @@ type CollectionQueryParam struct {
 
 // Collection 實體類
 type Collection struct {
-	Id         int    `form:"Id"`
-	MacAddress string `form:"MacAddress"`
-	Seq        int
-	WiseIp     string
-	Isassign   bool
-	Created    time.Time `orm:"auto_now;type(datetime)"`
-	// CollectionMachineRel []*CollectionMachineRel `orm:"reverse(many)" json:"-"`
+	Id                   int    `form:"Id"`
+	MacAddress           string `form:"MacAddress"`
+	Seq                  int
+	WiseIp               string
+	Isassign             bool
+	Created              time.Time               `orm:"auto_now;type(datetime)"`
+	MachineCollectionRel []*MachineCollectionRel `orm:"reverse(many)"`
 }
 
 // CollectionPageList 獲取分頁數據

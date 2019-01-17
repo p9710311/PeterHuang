@@ -8,7 +8,7 @@
    $(function () {		
         //驗證
         validateInfo();  
-        collectionSelectInit();
+        collectionSelectInit('{{.collections}}');
     })	
     function collectionSelectInit(selecteds){
         var url = '{{urlfor "CollectionController.DataList"}}';
@@ -18,7 +18,7 @@
             if(re.code === 0){               
                 var html=[]
                 $(re.obj).each(function(i,e){
-                    html.push('<option value="'+e.MacAddress+'">'+e.MacAddress+'</option>')
+                    html.push('<option value="'+e.Id+'">'+e.MacAddress+'</option>')
                 });
                 $select.html(html.join(''));
                 $select.selectpicker({liveSearch:true});

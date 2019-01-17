@@ -66,6 +66,35 @@ func (c *MachineController) Edit() {
 		c.Save()
 	}
 	Id, _ := c.GetInt(":id", 0)
+	m := &models.Machine{}
+	var err error
+	if Id > 0 {
+		m, err = models.MachineOne(Id)
+		if err != nil {
+			c.pageError("數據無效，請刷新後重試")
+		}
+		o := orm.NewOrm()
+		o.LoadRelated(m, "MachineCollectionRel")
+	}
+	c.Data["m"] = m
+	c.setTpl("machine/edit.html", "shared/layout_pullbox.html")
+	c.LayoutSections = make(map[string]string)
+	c.LayoutSections["footerjs"] = "machine/edit_footerjs.html"
+	//獲取關聯
+	var collectionIds []string
+	for _, item := range m.MachineCollectionRel {
+		collectionIds = append(collectionIds, strconv.Itoa(item.Collection.Id))
+	}
+	c.Data["collections"] = strings.Join(collectionIds, ",")
+
+}
+
+//Edit2 添加、編輯角色界面
+func (c *MachineController) Edit2() {
+	if c.Ctx.Request.Method == "POST" {
+		c.Save()
+	}
+	Id, _ := c.GetInt(":id", 0)
 	m := models.Machine{Id: Id}
 	if Id > 0 {
 		o := orm.NewOrm()
@@ -75,33 +104,57 @@ func (c *MachineController) Edit() {
 		}
 	}
 	c.Data["m"] = m
-	c.setTpl("machine/edit.html", "shared/layout_pullbox.html")
+	c.setTpl("machine/edit.new.html", "shared/layout_pullbox.html")
 	c.LayoutSections = make(map[string]string)
-	c.LayoutSections["footerjs"] = "machine/edit_footerjs.html"
+	c.LayoutSections["footerjs"] = "machine/edit_footerjs.new.html"
+
 }
 
 //Save 添加、編輯頁面 保存
 func (c *MachineController) Save() {
 	var err error
 	m := models.Machine{}
+	o := orm.NewOrm()
 	//獲取form裡的值
 	if err = c.ParseForm(&m); err != nil {
 		c.jsonResult(enums.JRCodeFailed, "獲取數據失敗", m.Id)
 	}
-	o := orm.NewOrm()
+	//刪除已關聯的歷史數據
+	if _, err := o.QueryTable(models.MachineCollectionRelTBName()).Filter("machine__id", m.Id).Delete(); err != nil {
+		c.jsonResult(enums.JRCodeFailed, "刪除歷史關係失敗", "")
+	}
+
 	if m.Id == 0 {
-		if _, err = o.Insert(&m); err == nil {
-			c.jsonResult(enums.JRCodeSucc, "添加成功", m.Id)
-		} else {
+		if _, err = o.Insert(&m); err != nil {
 			c.jsonResult(enums.JRCodeFailed, "添加失敗", m.Id)
 		}
-
 	} else {
-		if _, err = o.Update(&m); err == nil {
-			c.jsonResult(enums.JRCodeSucc, "編輯成功", m.Id)
-		} else {
+		if _, err := models.MachineOne(m.Id); err != nil {
+			c.jsonResult(enums.JRCodeFailed, "數據無效，請刷新後重試", m.Id)
+		}
+		if _, err = o.Update(&m); err != nil {
 			c.jsonResult(enums.JRCodeFailed, "編輯失敗", m.Id)
 		}
+	}
+
+	//添加關係
+	var relations []models.MachineCollectionRel
+	//var relations2 []models.MachineMoldScheduleRel
+	for _, collectionId := range m.CollectionIds {
+		r := models.Collection{Id: collectionId}
+		relation := models.MachineCollectionRel{Machine: &m, Collection: &r}
+		relations = append(relations, relation)
+	}
+
+	if len(relations) > 0 {
+		//批量添加
+		if _, err := o.InsertMulti(len(relations), relations); err == nil {
+			c.jsonResult(enums.JRCodeSucc, "保存成功", m.Id)
+		} else {
+			c.jsonResult(enums.JRCodeFailed, "保存失敗", m.Id)
+		}
+	} else {
+		c.jsonResult(enums.JRCodeSucc, "保存成功", m.Id)
 	}
 
 }

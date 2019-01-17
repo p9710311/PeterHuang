@@ -219,6 +219,28 @@
             }
         });
     }
+    function EditFunNew(Id) {
+        var title = '新增射出機';
+        if (Id > 0) {
+            title = "編輯射出機"
+        }
+        var url = '{{ urlfor "MachineController.Edit2"}}' + '/' + Id;
+        layer.open({
+            type: 2,
+            title: title,
+            shadeClose: false,
+            shade: 0.2,
+            maxmin: true,
+            shift: 1,
+            area: ['70%', '80%'],
+            content: url,
+            btn: ['儲存','關閉'],
+            yes: function (index, layero) {
+                var iframeWin = window[layero.find('iframe')[0]['name']];
+                iframeWin.FormSubmit();
+            }
+        });
+    }
 
     function DeleteFun() {
         var url = '{{ urlfor "MachineController.Delete"}}';

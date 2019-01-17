@@ -222,7 +222,6 @@ func (c *ScheduleController) Save() {
 		if _, err := models.ScheduleOne(m.Id); err != nil {
 			c.jsonResult(enums.JRCodeFailed, "數據無效，請刷新後重試", m.Id)
 		}
-
 		if _, err := o.Update(&m); err != nil {
 			c.jsonResult(enums.JRCodeFailed, "編輯失敗", m.Id)
 		}
@@ -233,15 +232,16 @@ func (c *ScheduleController) Save() {
 	//var relations2 []models.MachineMoldScheduleRel
 	for _, moldId := range m.MoldIds {
 		r := models.Mold{Id: moldId}
-		relation := models.MachineMoldScheduleRel{Schedule: &m, Mold: &r}
+		p := models.Machine{Id: moldId}
+		relation := models.MachineMoldScheduleRel{Schedule: &m, Mold: &r, Machine: &p}
 		relations = append(relations, relation)
 	}
 
-	for _, machineId := range m.MachineIds {
-		p := models.Machine{Id: machineId}
-		relation2 := models.MachineMoldScheduleRel{Schedule: &m, Machine: &p}
-		relations = append(relations, relation2)
-	}
+	// for _, machineId := range m.MachineIds {
+	// 	p := models.Machine{Id: machineId}
+	// 	relation2 := models.MachineMoldScheduleRel{Schedule: &m, Machine: &p}
+	// 	relations = append(relations, relation2)
+	// }
 
 	if len(relations) > 0 {
 		//批量添加

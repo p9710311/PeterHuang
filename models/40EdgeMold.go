@@ -14,7 +14,8 @@ func (a *Mold) TableName() string {
 // MoldQueryParam 用於查詢的類
 type MoldQueryParam struct {
 	BaseQueryParam
-	NameLike string
+	NameLike   string
+	NumberLike string
 }
 
 // Mold 實體類
@@ -22,7 +23,7 @@ type Mold struct {
 	Id                     int `form:"Id"`
 	Seq                    int
 	ClientName             string
-	Name                   string
+	Name                   string `form:"Name"`
 	PlasticType            string
 	ProductModel           string
 	Number                 string
@@ -46,6 +47,7 @@ func MoldPageList(params *MoldQueryParam) ([]*Mold, int64) {
 		sortorder = "-" + sortorder
 	}
 	query = query.Filter("name__istartswith", params.NameLike)
+	query = query.Filter("number__istartswith", params.NumberLike)
 	total, _ := query.Count()
 	query.OrderBy(sortorder).Limit(params.Limit, params.Offset).All(&data)
 	return data, total

@@ -72,6 +72,7 @@ func init() {
 	beego.Router("/machine/index", &controllers.MachineController{}, "*:Index")
 	beego.Router("/machine/datagrid", &controllers.MachineController{}, "Get,Post:DataGrid")
 	beego.Router("/machine/edit/?:id", &controllers.MachineController{}, "Get,Post:Edit")
+	beego.Router("/machine/edit2/?:id", &controllers.MachineController{}, "Get,Post:Edit2")
 	beego.Router("/machine/delete", &controllers.MachineController{}, "Post:Delete")
 	beego.Router("/machine/datalist", &controllers.MachineController{}, "Post:DataList")
 	beego.Router("/machine/updateseq", &controllers.MachineController{}, "Post:UpdateSeq")

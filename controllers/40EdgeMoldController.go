@@ -25,7 +25,7 @@ func (c *MoldController) Prepare() {
 
 //Index 角色管理首頁
 func (c *MoldController) Index() {
-	c.Data["showMoreQuery"] = false
+	c.Data["showMoreQuery"] = true
 	c.Data["activeSidebarUrl"] = c.URLFor(c.controllerName + "." + c.actionName)
 	c.setTpl()
 	c.LayoutSections = make(map[string]string)
