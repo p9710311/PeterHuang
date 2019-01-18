@@ -8,11 +8,15 @@
    $(function () {		
         //驗證
         validateInfo();  
-        moldSelectInit();
+        moldSelectInit('{{.molds}}');
         // qtySelectInit();
     })	
+    function ChangeFunction2(){
+        var x = $( "#Molds option:selected").text();
+        $("#MoldNumber").val(x);     
+    }
 
-    function moldSelectInit(){
+    function moldSelectInit(selecteds){
         var url = '{{urlfor "MoldController.DataList"}}';
         var $select =$("#Molds");
         $select.html('');
@@ -20,7 +24,7 @@
             if(re.code === 0){               
                 var html=[]
                 $(re.obj).each(function(i,e){
-                    html.push('<option value="'+e.Number+'">'+e.Number+' <<---------->> '+e.Name+'</option>')
+                    html.push('<option value="'+e.Id+'">'+e.Number+'</option>')
                 });
                 $select.html(html.join(''));
                 $select.selectpicker({liveSearch:true});

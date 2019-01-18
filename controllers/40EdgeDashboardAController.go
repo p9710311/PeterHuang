@@ -68,13 +68,20 @@ func (c *DashboardAController) Edit() {
 		c.Save()
 	}
 	Id, _ := c.GetInt(":id", 0)
-	m := models.DashboardA{Id: Id}
+	m := &models.DashboardA{}
+	var err error
 	if Id > 0 {
-		o := orm.NewOrm()
-		err := o.Read(&m)
+		// o := orm.NewOrm()
+		// err := o.Read(&m)
+		// if err != nil {
+		// 	c.pageError("數據無效，請刷新後重試")
+		// }
+		m, err = models.DashboardAOne(Id)
 		if err != nil {
 			c.pageError("數據無效，請刷新後重試")
 		}
+		o := orm.NewOrm()
+		o.LoadRelated(m, "MachineDashboardARel")
 	}
 
 	c.Data["m"] = m
@@ -98,19 +105,34 @@ func (c *DashboardAController) Edit2() {
 		c.Save()
 	}
 	Id, _ := c.GetInt(":id", 0)
-	m := models.DashboardA{Id: Id}
+	m := &models.DashboardA{}
+	var err error
 	if Id > 0 {
-		o := orm.NewOrm()
-		err := o.Read(&m)
+		// o := orm.NewOrm()
+		// err := o.Read(&m)
+		// if err != nil {
+		// 	c.pageError("數據無效，請刷新後重試")
+		// }
+		m, err = models.DashboardAOne(Id)
 		if err != nil {
 			c.pageError("數據無效，請刷新後重試")
 		}
+		o := orm.NewOrm()
+		o.LoadRelated(m, "MachineDashboardARel")
 	}
 
 	c.Data["m"] = m
 	c.setTpl("dashboarda/edit2.html", "shared/layout_pullbox.html")
 	c.LayoutSections = make(map[string]string)
 	c.LayoutSections["footerjs"] = "dashboarda/edit2_footerjs.html"
+	var moldIds []string
+	var machineIds []string
+	for _, item := range m.MachineDashboardARel {
+		moldIds = append(moldIds, strconv.Itoa(item.Mold.Id))
+		machineIds = append(machineIds, strconv.Itoa(item.Machine.Id))
+	}
+	c.Data["molds"] = strings.Join(moldIds, ",")
+	c.Data["machines"] = strings.Join(machineIds, ",")
 }
 
 //Save 添加、編輯頁面 保存
@@ -123,9 +145,9 @@ func (c *DashboardAController) Save() {
 		c.jsonResult(enums.JRCodeFailed, "獲取數據失敗", m.Id)
 	}
 	//刪除已關聯的歷史數據
-	// if _, err := o.QueryTable(models.MachineDashboardARelTBName()).Filter("dashboard_a__id", m.Id).Delete(); err != nil {
-	// 	c.jsonResult(enums.JRCodeFailed, "刪除歷史關係失敗", "")
-	// }
+	if _, err := o.QueryTable(models.MachineDashboardARelTBName()).Filter("dashboarda__id", m.Id).Delete(); err != nil {
+		c.jsonResult(enums.JRCodeFailed, "刪除歷史關係失敗", "")
+	}
 
 	if m.Id == 0 {
 		if _, err = o.Insert(&m); err != nil {
@@ -147,12 +169,50 @@ func (c *DashboardAController) Save() {
 
 	//添加關係
 	var relations []models.MachineDashboardARel
+
+	// var tempval int = 0
+	// moldId := len(m.MoldIds)
+	// machineId := len(m.MachineIds)
+	// if moldId > machineId {
+	// 	for i := 0; i < moldId; i++ {
+	// 		if machineId < i {
+	// 			tempval = machineId
+	// 		} else {
+	// 			tempval = i
+	// 		}
+	// 		r := models.Mold{Id: i}
+	// 		p := models.Machine{Id: tempval}
+	// 		relation := models.MachineDashboardARel{DashboardA: &m, Mold: &r, Machine: &p}
+	// 		relations = append(relations, relation)
+	// 	}
+	// } else {
+	// 	for i := 0; i < moldId; i++ {
+	// 		if moldId < i {
+	// 			tempval = moldId
+	// 		} else {
+	// 			tempval = i
+	// 		}
+	// 		r := models.Mold{Id: tempval}
+	// 		p := models.Machine{Id: i}
+	// 		relation := models.MachineDashboardARel{DashboardA: &m, Mold: &r, Machine: &p}
+	// 		relations = append(relations, relation)
+	// 	}
+
+	// }
+	// var tempval int = 0
+
 	for _, moldId := range m.MoldIds {
 		r := models.Mold{Id: moldId}
 		p := models.Machine{Id: moldId}
 		relation := models.MachineDashboardARel{DashboardA: &m, Mold: &r, Machine: &p}
 		relations = append(relations, relation)
 	}
+	// for _, machineId := range m.MachineIds {
+	// 	// r := models.Mold{Id: moldId}
+	// 	p := models.Machine{Id: machineId}
+	// 	relation := models.MachineDashboardARel{DashboardA: &m, Machine: &p}
+	// 	relations[machineId] = append(relations, relation)
+	// }
 
 	if len(relations) > 0 {
 		//批量添加

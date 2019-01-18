@@ -8,11 +8,11 @@
    $(function () {		
         //驗證
         validateInfo();  
-        numberSelectInit('{{.molds}}'); 
+        numberSelectInit('{{.machines}}'); 
        
         macSelectInit();   
         nameSelectInit(); 
-        moldSelectInit();
+        moldSelectInit('{{.molds}}');
         // qtySelectInit();
     })	
 
@@ -28,6 +28,7 @@
         document.getElementById(namex).selected = "true";
         // console.log($( "#Names option:selected" ).val());
         // console.log($( "#Macs option:selected" ).val());
+        $("#MachineNumber").val( $( "#Numbers option:selected").text());
         $("#MacAddress").val($( "#Macs option:selected" ).val());
         $("#MachineName").val($( "#Names option:selected" ).val());
 
@@ -76,7 +77,7 @@
             }
         });
     }
-    function numberSelectInit(){
+    function numberSelectInit(selecteds){
         var url = '{{urlfor "MachineController.DataList"}}';
         var $select =$("#Numbers");
         $select.html('');
@@ -88,14 +89,14 @@
                 });
                 $select.html(html.join(''));
                 $select.selectpicker({liveSearch:true});
-                //$select.selectpicker('val',selecteds.split(','));
+                $select.selectpicker('val',selecteds.split(','));
             }
             else{
                 layer.alert("獲取資料失敗",{icon:2,title:'失敗'})
             }
         });
     }
-    function moldSelectInit(){
+    function moldSelectInit(selecteds){
         var url = '{{urlfor "MoldController.DataList"}}';
         var $select =$("#Molds");
         $select.html('');
