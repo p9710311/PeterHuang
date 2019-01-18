@@ -237,12 +237,6 @@ func (c *ScheduleController) Save() {
 		relations = append(relations, relation)
 	}
 
-	// for _, machineId := range m.MachineIds {
-	// 	p := models.Machine{Id: machineId}
-	// 	relation2 := models.MachineMoldScheduleRel{Schedule: &m, Machine: &p}
-	// 	relations = append(relations, relation2)
-	// }
-
 	if len(relations) > 0 {
 		//批量添加
 		if _, err := o.InsertMulti(len(relations), relations); err == nil {

@@ -9,6 +9,11 @@
         //驗證
         validateInfo();  
         collectionSelectInit('{{.collections}}');
+        $("#Collections").change(function(){
+              console.log($( "#Collections option:selected" ).text())
+              $("#MacAddress").val($("#Collections option:selected").text())
+            //  $("#CollectionId").text($("#Collections").val())
+          })
     })	
     function collectionSelectInit(selecteds){
         var url = '{{urlfor "CollectionController.DataList"}}';

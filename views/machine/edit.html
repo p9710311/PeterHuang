@@ -24,9 +24,12 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">射出機 ID</label>
                 <div class="col-sm-8">
-                    <select name="MacAddress" id="Collections" class="form-control"></select>
+                    <select name="CollectionIds" id="Collections" class="form-control"></select>
                 </div>
             </div>
+            <div class="form-group" style="display:none">
+                <input type="text" name="MacAddress" id="MacAddress" class="form-control" value="{{.m.MacAddress}}">
+            </div> 
             <!-- <div class="form-group">
                 <label class="col-sm-2 control-label">Seq</label>
                 <div class="col-sm-8">
