@@ -23,25 +23,15 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">射出機編號</label>
                 <div class="col-sm-8">
-                    <select name="MachineNumber" id="Numbers" class="form-control" onchange="ChangeFunction()"></select>
+                    <select name="MachineIds" id="Numbers" class="form-control" onchange="ChangeFunction()"></select>
                 </div>
             </div>            
-            <div class="form-group" type="hidden">
-                <label class="col-sm-2 control-label">射出機名稱</label>
-                <div class="col-sm-8">
-                    <select type="hidden" name="MachineName" id="Names" class="form-control"></select>
-                </div>
-            </div>
-            <div class="form-group" type="hidden">
-                <label class="col-sm-2 control-label">射出機 ID</label>
-                <div class="col-sm-8">
-                    <select name="MacAddress" id="Macs" class="form-control"></select>
-                </div>
-            </div>
+            
+            
             <div class="form-group">
                 <label class="col-sm-2 control-label">模號</label>
                 <div class="col-sm-8">
-                    <select name="MoldNumber" id="Molds" class="form-control"></select>
+                    <select name="MoldIds" id="Molds" class="form-control" onchange="ChangeFunction2()"></select>
                 </div>
             </div>
             <div class="form-group">
@@ -50,6 +40,30 @@
                     <input type="text" name="Qty" class="form-control" placeholder="" value="0">
                 </div>
             </div>
+
+            <!-- 關聯MachineName & MacAddress 隱藏 -->
+            <div class="form-group" type="hidden" style="display: none;">
+                <label class="col-sm-2 control-label">射出機名稱</label>
+                <div class="col-sm-8">
+                    <select type="hidden" name="Names" id="Names" class="form-control"></select>
+                </div>
+            </div>
+            <div class="form-group" type="hidden" style="display: none;">
+                <label class="col-sm-2 control-label">射出機 ID</label>
+                <div class="col-sm-8">
+                    <select name="Macs" id="Macs" class="form-control"></select>
+                </div>
+            </div>
+            <div class="form-group" style="display: none;">
+                <input type="text" name="MachineName" id="MachineName" class="form-control" value="{{.m.MachineName}}">
+            </div> 
+            <div class="form-group" style="display: none;">
+                <input type="text" name="MacAddress" id="MacAddress" class="form-control" value="{{.m.MacAddress}}">
+            </div> 
+            <div class="form-group" style="display: none;">
+                <input type="text" name="MoldNumber" id="MoldNumber" class="form-control" value="{{.m.MoldNumber}}">
+            </div> 
+       
             <!-- <div class="form-group">
                 <label class="col-sm-2 control-label">Cycletime</label>
                 <div class="col-sm-8">

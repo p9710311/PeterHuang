@@ -30,3 +30,17 @@ type MachineCollectionRel struct {
 func (a *MachineCollectionRel) TableName() string {
 	return MachineCollectionRelTBName()
 }
+
+// RoleBackendUserRel 角色與用戶關係
+type MachineDashboardARel struct {
+	Id         int
+	DashboardA *DashboardA `orm:"rel(fk)" ` // 外鍵
+	Machine    *Machine    `orm:"rel(fk)" ` // 外鍵
+	Mold       *Mold       `orm:"rel(fk)" ` // 外鍵
+	Created    time.Time   `orm:"auto_now_add;type(datetime)"`
+}
+
+// TableName 設置表名
+func (a *MachineDashboardARel) TableName() string {
+	return MachineDashboardARelTBName()
+}

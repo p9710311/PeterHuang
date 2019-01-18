@@ -8,7 +8,7 @@
    $(function () {		
         //驗證
         validateInfo();  
-        numberSelectInit(); 
+        numberSelectInit('{{.molds}}'); 
        
         macSelectInit();   
         nameSelectInit(); 
@@ -17,19 +17,25 @@
     })	
 
     function ChangeFunction(){
-        var x = document.getElementById("Numbers").value;
-        console.log(x);
+        var x = $( "#Numbers option:selected").text();
+       
+       // console.log($( "#Numbers option:selected").text());
         var macx = "mac"+x;
         var namex = "name"+x;
-        console.log(macx);
-        console.log(namex);
+        //console.log(macx.value);
+        //console.log(namex.value);
         document.getElementById(macx).selected = "true";
         document.getElementById(namex).selected = "true";
+        // console.log($( "#Names option:selected" ).val());
+        // console.log($( "#Macs option:selected" ).val());
+        $("#MacAddress").val($( "#Macs option:selected" ).val());
+        $("#MachineName").val($( "#Names option:selected" ).val());
+
         
-        
-        //nameSelectInit(x);
-      
-        
+    }
+    function ChangeFunction2(){
+        var x = $( "#Molds option:selected").text();
+        $("#MoldNumber").val(x);     
     }
     
     function macSelectInit(){
@@ -40,9 +46,7 @@
             if(re.code === 0){          
                 var html=[]
                 $(re.obj).each(function(i,e){
-                   
-                        html.push('<option id="mac'+e.MachineNumber+'" disabled value="'+e.MacAddress+'">'+e.MacAddress+' <<---------->> '+e.MachineNumber+'</option>')
-                   
+                    html.push('<option id="mac'+e.MachineNumber+'" disabled value="'+e.MacAddress+'">'+e.MacAddress+' <<---------->> '+e.MachineNumber+'</option>')         
                 });
                 $select.html(html.join(''));
               //  $select.selectpicker({liveSearch:true});
@@ -61,10 +65,7 @@
             if(re.code === 0){               
                 var html=[]
                 $(re.obj).each(function(i,e){
-                 
-                        html.push('<option id="name'+e.MachineNumber+'" disabled value="'+e.MachineName+'">'+e.MachineName+' <<---------->> '+e.MachineNumber+'</option>')
-                       
-                        
+                    html.push('<option id="name'+e.MachineNumber+'" disabled value="'+e.MachineName+'">'+e.MachineName+' <<---------->> '+e.MachineNumber+'</option>')    
                 });
                 $select.html(html.join(''));
                // $select.selectpicker({liveSearch:true});
@@ -83,7 +84,7 @@
             if(re.code === 0){               
                 var html=[]
                 $(re.obj).each(function(i,e){
-                    html.push('<option value="'+e.MachineNumber+'">'+e.MachineNumber+'</option>')
+                    html.push('<option value="'+e.Id+'">'+e.MachineNumber+'</option>')
                 });
                 $select.html(html.join(''));
                 $select.selectpicker({liveSearch:true});
@@ -102,11 +103,11 @@
             if(re.code === 0){               
                 var html=[]
                 $(re.obj).each(function(i,e){
-                    html.push('<option value="'+e.Number+'">'+e.Number+'</option>')
+                    html.push('<option value="'+e.Id+'">'+e.Number+'</option>')
                 });
                 $select.html(html.join(''));
                 $select.selectpicker({liveSearch:true});
-               // $select.selectpicker('val',selecteds.split(','));
+               $select.selectpicker('val',selecteds.split(','));
             }
             else{
                 layer.alert("獲取資料失敗",{icon:2,title:'失敗'})

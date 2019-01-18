@@ -81,6 +81,15 @@ func (c *DashboardAController) Edit() {
 	c.setTpl("dashboarda/edit.html", "shared/layout_pullbox.html")
 	c.LayoutSections = make(map[string]string)
 	c.LayoutSections["footerjs"] = "dashboarda/edit_footerjs.html"
+
+	var moldIds []string
+	var machineIds []string
+	for _, item := range m.MachineDashboardARel {
+		moldIds = append(moldIds, strconv.Itoa(item.Mold.Id))
+		machineIds = append(machineIds, strconv.Itoa(item.Machine.Id))
+	}
+	c.Data["molds"] = strings.Join(moldIds, ",")
+	c.Data["machines"] = strings.Join(machineIds, ",")
 }
 
 //Edit 添加、編輯角色界面
@@ -108,24 +117,52 @@ func (c *DashboardAController) Edit2() {
 func (c *DashboardAController) Save() {
 	var err error
 	m := models.DashboardA{}
+	o := orm.NewOrm()
 	//獲取form裡的值
 	if err = c.ParseForm(&m); err != nil {
 		c.jsonResult(enums.JRCodeFailed, "獲取數據失敗", m.Id)
 	}
-	o := orm.NewOrm()
+	//刪除已關聯的歷史數據
+	// if _, err := o.QueryTable(models.MachineDashboardARelTBName()).Filter("dashboard_a__id", m.Id).Delete(); err != nil {
+	// 	c.jsonResult(enums.JRCodeFailed, "刪除歷史關係失敗", "")
+	// }
+
 	if m.Id == 0 {
-		if _, err = o.Insert(&m); err == nil {
-			c.jsonResult(enums.JRCodeSucc, "添加成功", m.Id)
-		} else {
+		if _, err = o.Insert(&m); err != nil {
+			// 	c.jsonResult(enums.JRCodeSucc, "添加成功", m.Id)
+			// } else {
 			c.jsonResult(enums.JRCodeFailed, "添加失敗", m.Id)
 		}
 
 	} else {
-		if _, err = o.Update(&m); err == nil {
-			c.jsonResult(enums.JRCodeSucc, "編輯成功", m.Id)
-		} else {
+		if _, err := models.DashboardAOne(m.Id); err != nil {
+			c.jsonResult(enums.JRCodeFailed, "數據無效，請刷新後重試", m.Id)
+		}
+		if _, err = o.Update(&m); err != nil {
+			// 	c.jsonResult(enums.JRCodeSucc, "編輯成功", m.Id)
+			// } else {
 			c.jsonResult(enums.JRCodeFailed, "編輯失敗", m.Id)
 		}
+	}
+
+	//添加關係
+	var relations []models.MachineDashboardARel
+	for _, moldId := range m.MoldIds {
+		r := models.Mold{Id: moldId}
+		p := models.Machine{Id: moldId}
+		relation := models.MachineDashboardARel{DashboardA: &m, Mold: &r, Machine: &p}
+		relations = append(relations, relation)
+	}
+
+	if len(relations) > 0 {
+		//批量添加
+		if _, err := o.InsertMulti(len(relations), relations); err == nil {
+			c.jsonResult(enums.JRCodeSucc, "保存成功", m.Id)
+		} else {
+			c.jsonResult(enums.JRCodeFailed, "保存失敗", m.Id)
+		}
+	} else {
+		c.jsonResult(enums.JRCodeSucc, "保存成功", m.Id)
 	}
 
 }

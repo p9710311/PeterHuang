@@ -28,6 +28,7 @@ type Mold struct {
 	ProductModel           string
 	Number                 string
 	MachineMoldScheduleRel []*MachineMoldScheduleRel `orm:"reverse(many)"`
+	MachineDashboardARel   []*MachineDashboardARel   `orm:"reverse(many)"`
 	Created                time.Time                 `orm:"auto_now;type(datetime)"`
 }
 

@@ -39,11 +39,16 @@ type DashboardA struct {
 	ProgressAbnormal string
 	ProgressRunning  string
 	//未使用
-	U        string
-	A        string
-	P        string
-	Q        string
-	Modified time.Time `orm:"auto_now;type(datetime)"`
+	U                    string
+	A                    string
+	P                    string
+	Q                    string
+	MachineDashboardARel []*MachineDashboardARel `orm:"reverse(many)"`
+	MachineIds           []int                   `orm:"-" form"MachineIds"`
+	MachineId            int
+	MoldIds              []int `orm:"-" form"MoldIds"`
+	MoldId               int
+	Modified             time.Time `orm:"auto_now;type(datetime)"`
 }
 
 // DashboardAList 獲取分頁數據

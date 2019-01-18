@@ -29,6 +29,7 @@ type Machine struct {
 	CollectionIds          []int                     `orm:"-" form:"CollectionIds"`
 	MachineMoldScheduleRel []*MachineMoldScheduleRel `orm:"reverse(many)"`
 	MachineCollectionRel   []*MachineCollectionRel   `orm:"reverse(many)"`
+	MachineDashboardARel   []*MachineDashboardARel   `orm:"reverse(many)"`
 	Modified               time.Time                 `orm:"auto_now;type(datetime)"`
 }
 
