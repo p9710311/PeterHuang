@@ -1,4 +1,4 @@
-CollectionIdssubmitpackage controllers
+package controllers
 
 import (
 	"encoding/json"
