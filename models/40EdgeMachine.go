@@ -26,7 +26,7 @@ type Machine struct {
 	MachineNumber          string
 	Brand                  string
 	Seq                    int
-	CollectionIds          []int                     `orm:"-" form:"CollectionIds"`
+	CollectionIds          []int                     `orm:"-" form:"CollectiothisFormnIds"`
 	MachineMoldScheduleRel []*MachineMoldScheduleRel `orm:"reverse(many)"`
 	MachineCollectionRel   []*MachineCollectionRel   `orm:"reverse(many)"`
 	MachineDashboardARel   []*MachineDashboardARel   `orm:"reverse(many)"`

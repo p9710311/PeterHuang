@@ -1,8 +1,10 @@
 <div class="row">
         <!-- form start -->
+        <button type="button" class="btn btn-primary btn-sm" onclick=NewDiv()>新增一筆</button>
+        <button type="button" class="btn btn-primary btn-sm" onclick=DelDiv()>刪除一筆</button>
         <form class="form-horizontal" id="thisForm">
-                <div class="col-xs-2"> </div>
-            <button type="button" class="btn btn-primary btn-sm" onclick=NewDiv()>新增一筆</button>
+           
+            
             <input type="hidden" Name="Id" id="Id" value="{{.m.Id}}">
             <div class="form-group">
                 <div class="col-xs-2"> </div>
@@ -11,30 +13,40 @@
                 <label class="col-sm-2 control-label" >射出機品牌</label>
                 <label class="col-sm-2 control-label" >射出機 ID</label>
             </div>
-            <div class="form-group">
-            <div class="form-inline" id="first" name="first">
-                <div class="col-xs-2"> </div>
-                <div class="col-xs-2">
-                    <input  type="text" id="focusedInput" name="MachineNumber" class="form-control" placeholder="" value="{{.m.MachineNumber}}">
-                </div>
-                <div class="col-xs-2">
-                    <input  type="text" id="focusedInput" name="MachineName" class="form-control" placeholder="" value="{{.m.MachineName}}">
-                </div>
-                <div class="col-xs-2">
-                    <input  type="text" id="focusedInput" name="Brand" class="form-control" placeholder="" value="{{.m.Brand}}">
-                </div>
-                <div class="col-xs-2">
-                    <select  name="CollectionIds" id="Collections" class="form-control" ></select>
-                </div>
+            <div class="form-group" id="first" name="first">
+                <div class="form-inline" >
+                    <div class="col-xs-2"> </div>
+                    <div class="col-xs-2">
+                        <input  type="text" id="focusedInput" name="MachineNumber" class="form-control" placeholder="" value="{{.m.MachineNumber}}">
+                    </div>
+                    <div class="col-xs-2">
+                        <input  type="text" id="focusedInput" name="MachineName" class="form-control" placeholder="" value="{{.m.MachineName}}">
+                    </div>
+                    <div class="col-xs-2">
+                        <input  type="text" id="focusedInput" name="Brand" class="form-control" placeholder="" value="{{.m.Brand}}">
+                    </div>
+                    <div class="col-xs-2">
+                        <select  name="CollectionIds" id="Collections" class="form-control" ></select>
+                    </div>
 
+                    <div class="form-group" style="display:none">
+                        <input type="text" name="MacAddress" id="MacAddress" class="form-control" value="{{.m.MacAddress}}">
+                    </div> 
+
+                </div>
             </div>
-             <div class="form-group" style="display:none">
-                <input type="text" name="MacAddress" id="MacAddress" class="form-control" value="{{.m.MacAddress}}">
-            </div> 
-       
+     
+
+            <div class="form-group"></div> 
             
-            <p></p>
-          
+        </form>
+         
+            
 
       
     </div>
+    <div id="sec" ></div>    
+
+
+
+     

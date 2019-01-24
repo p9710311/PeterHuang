@@ -9,6 +9,7 @@
    $(function () {		
         //驗證
         validateInfo();  
+        validateInfonew();
         collectionSelectInit();
         $("#Collections").change(function(){
               console.log($( "#Collections option:selected" ).text())
@@ -16,6 +17,19 @@
             //  $("#CollectionId").text($("#Collections").val())
           })
     })	
+    function ChangeFunction(id){
+        console.log(id.id)
+        
+        Collectionsafter0
+         var idstring = "#"+id.id+" option:selected"
+         var x = $(idstring).text();
+        // console.log(x)
+         var textstring = "#MacAddress"+id.id.slice(16);
+         $(textstring).val($(idstring).text()); 
+         $(textstring).text($(idstring).text());
+         
+
+    }
     function collectionSelectInit(selecteds){
         var url = '{{urlfor "CollectionController.DataList"}}';
         var $select =$("#Collections");
@@ -61,16 +75,58 @@
                return false;
             }
         });
+        
+    }
+      //表單驗證及AJAX提交
+      function validateInfonew() {
+        var $thisForm = $('#thisForm0');
+        $thisForm.sdvalidate({
+            // rules: {
+            //     Name: {
+            //         maxlength: 32,
+            //         required: true
+            //     }
+            // },
+            // messages: {},
+            submitHandler: function (form) {
+				var url ='{{ urlfor "MachineController.Edit"}}'
+				var data = $thisForm.serialize();				
+				$.sdpost(url,data,function(re){
+					if(re.code === 0){
+						parent.layer.msg(re.msg)
+						parent.refresh(re.obj)
+						parent.layer.close(index)
+					}else{
+						parent.layer.alert(re.msg,{icon:2,title:'失敗'})
+					}
+				});
+               return false;
+            }
+        });
+        
     }
 
     function FormSubmit() {
-        $("#thisForm").submit();		
+    $("#thisForm").submit();
+      // document.getElementById("thisForm0").submit();
+    $("#thisForm0").submit();
+        
+        		
     }
     function NewDiv(){
         console.log("add new")
-        $("p").append("<div class='form-group'><div class='form-inline' ><div class='col-xs-2'> </div><div class='col-xs-2'><input  type='text' name='MachineNumber' class='form-control' placeholder='' value='{{.m.MachineNumber}}'></div><div class='col-xs-2'><input  type='text' name='MachineName' class='form-control' placeholder='' value='{{.m.MachineName}}'></div><div class='col-xs-2'><input  type='text' name='Brand' class='form-control' placeholder='' value='{{.m.Brand}}'></div><div class='col-xs-2'><select  name='MacAddress' id='Collectionsafter"+listnum+"' class='form-control' ></select></div></div></div>");
+        var idstring = "Collectionsafter"+listnum
+        // $("#sec").append("<form class='form-horizontal' id='thisForm"+listnum+"'><input type='hidden' Name='Id' id='Id' value='{{.m.Id}}'><div class='form-group' id='dynamicdiv"+listnum+"'  ><div class='form-inline' ><div class='col-xs-2'></div><div class='col-xs-2'><input  type='text' id='focusedInput' name='MachineNumber' class='form-control' placeholder='' value='{{.m.MachineNumber}}'></div><div class='col-xs-2'><input  type='text' id='focusedInput' name='MachineName' class='form-control' placeholder='' value='{{.m.MachineName}}'> </div><div class='col-xs-2'><input  type='text' id='focusedInput' name='Brand' class='form-control' placeholder='' value='{{.m.Brand}}'></div><div class='col-xs-2'><select  name='CollectionIds' id='Collectionsafter"+listnum+"' class='form-control' onchange='ChangeFunction("+idstring+")'></select></div> <div class='form-group' style='display:none'><input type='text' id='focusedInput' name='MacAddress' id='MacAddress"+listnum+"' class='form-control' value='{{.m.MacAddress}}' ></div></div></div></form>");
+        $("#thisForm").after("<form class='form-horizontal' id='thisForm"+listnum+"'><input type='hidden' Name='Id' id='Id' value='{{.m.Id}}'><div class='form-group' id='dynamicdiv"+listnum+"'  ><div class='form-inline' ><div class='col-xs-2'></div><div class='col-xs-2'><input  type='text' id='focusedInput' name='MachineNumber' class='form-control' placeholder='' value='{{.m.MachineNumber}}'></div><div class='col-xs-2'><input  type='text' id='focusedInput' name='MachineName' class='form-control' placeholder='' value='{{.m.MachineName}}'> </div><div class='col-xs-2'><input  type='text' id='focusedInput' name='Brand' class='form-control' placeholder='' value='{{.m.Brand}}'></div><div class='col-xs-2'><select  name='CollectionIds' id='Collectionsafter"+listnum+"' class='form-control' onchange='ChangeFunction("+idstring+")'></select></div> <div class='form-group' style='display:none'><input type='text' id='focusedInput' name='MacAddress' id='MacAddress"+listnum+"' class='form-control' value='{{.m.MacAddress}}' ></div></div></div></form>");
+    
+        // $("#first").after("<div class='form-group'><div class='form-inline' id='first' name='first'><div class='col-xs-2'> </div><div class='col-xs-2'><input  type='text' id='focusedInput1' name='MachineNumber' class='form-control' placeholder='' value='{{.m.MachineNumber}}'></div><div class='col-xs-2'><input  type='text' id='focusedInput1' name='MachineName' class='form-control' placeholder='' value='{{.m.MachineName}}'></div><div class='col-xs-2'><input  type='text' id='focusedInput1' name='Brand' class='form-control' placeholder='' value='{{.m.Brand}}'></div><div class='col-xs-2'><select  name='CollectionIds' id='Collections' class='form-control' ></select></div><div class='form-group' style='display:none'><input type='text' name='MacAddress' id='MacAddress1' class='form-control' value='{{.m.MacAddress}}'></div> </div></div>");
+       
         collectionSelectInitafter();
         listnum++;
+    }
+    function DelDiv(){
+        $("#dynamicdiv"+listnum).remove();
+        listnum--;
     }
     function collectionSelectInitafter(selecteds){
         var url = '{{urlfor "CollectionController.DataList"}}';
