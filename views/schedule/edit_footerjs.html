@@ -16,12 +16,18 @@
               //console.log($("#Molds").val())
               $("#MoldId").val($("#Molds").val())
               $("#MoldId").text($("#Molds").val())
+            //   console.log($("#Molds").val())
+            //   console.log($("#Molds option:selected").text())
+          
+            $("#MoldNumber").text($("#Molds option:selected").text())
+            $("#MoldNumber").val($("#Molds option:selected").text())
           })
           $("#Machines").change(function(){
               //console.log($("#Molds").val())
               $("#MachineId").val($("#Machines").val())
               $("#MachineId").text($("#Machines").val())
           })
+         
     })
     function pageInit(){
         //角色下拉框初始化
@@ -57,7 +63,7 @@
             if(re.code === 0){               
                 var html=[]
                 $(re.obj).each(function(i,e){
-                    console.log(e)
+                    // console.log(e)
                     html.push('<option value="'+e.Id+'">'+e.MachineNumber+"--"+e.MachineName+'</option>')
                 });
                 $select.html(html.join(''));

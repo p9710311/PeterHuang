@@ -2,12 +2,7 @@
         <!-- form start -->
         <form class="form-horizontal" id="thisForm">
             <input type="hidden" Name="Id" id="Id" value="{{.m.Id}}">
-            <!-- <div class="form-group">
-                <label class="col-sm-2 control-label">模具</label>
-                <div class="col-sm-8">
-                    <input type="text" name="MoldNumber" class="form-control" placeholder="" value="{{.m.MoldNumber}}">
-                </div>
-            </div> -->
+          
             <div class="form-group">
                 <label class="col-sm-2 control-label">模具</label>
                 <div class="col-sm-8">
@@ -22,7 +17,7 @@
                     </select>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" >
                 <label class="col-sm-2 control-label">生產數量</label>
                 <div class="col-sm-8">
                     <input type="text" name="Qty" class="form-control" placeholder="" value="{{.m.Qty}}">
@@ -35,9 +30,15 @@
                 </div>
             </div>
             <div class="form-group" style="display:none">
-                <label class="col-sm-2 control-label">MoldId</label>
+                <label class="col-sm-2 control-label">MachineId</label>
                 <div class="col-sm-8">
                     <input type="text" name="MachineId" id="MachineId" class="form-control" placeholder="" value="{{.m.MachineId}}">
+                </div>
+            </div>
+            <div class="form-group" style="display:none">
+                <label class="col-sm-2 control-label">模具text</label>
+                <div class="col-sm-8">
+                    <input type="text" name="MoldNumber" id="MoldNumber" class="form-control" placeholder="" value="{{.m.MoldNumber}}">
                 </div>
             </div>
             <div class="form-group">
@@ -46,5 +47,6 @@
                     <input type="date" name="TimeStart" class="form-control" placeholder="" value="{{.m.TimeStart}}">
                 </div>
             </div>
+            
         </form>
     </div>
