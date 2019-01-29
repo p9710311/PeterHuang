@@ -23,20 +23,26 @@
             $("#MoldNumber").val($("#Molds option:selected").text())
           })
           $("#Machines").change(function(){
-              //console.log($("#Molds").val())
-              $("#MachineId").val($("#Machines").val())
-              $("#MachineId").text($("#Machines").val())
+            // console.log($("#Machines option:selected").val())
+              console.log($("#Machines option:selected").text())
+              $("#MachineId").val($("#Machines option:selected").val())
+              $("#MachineId").text($("#Machines option:selected").val())
+              $("#MachineName").val($("#Machines option:selected").text())
+              $("#MachineName").text($("#Machines option:selected").text())
           })
          
     })
     function pageInit(){
         //角色下拉框初始化
         moldSelectInit('{{.molds}}');
-        machineSelectInit('{{.machines}}')
+        machineSelectInit('{{.machinenames}}')
         validateInfo(); 
     }   
     function moldSelectInit(selecteds){
         var url = '{{urlfor "MoldController.DataList"}}';
+       
+        //console.log("mold selecteds: "+selecteds)
+        // console.log("mold selecteds type: "+ typeof selecteds)
         // var url = /mold/datalist
         var $select =$("#Molds");
         $select.html('');
@@ -68,6 +74,10 @@
                 });
                 $select.html(html.join(''));
                 $select.selectpicker({liveSearch:true});
+                //selecteds = "8"
+
+                console.log("machine selecteds: "+selecteds)
+                console.log("machine selecteds type: "+ typeof selecteds)
                 $select.selectpicker('val',selecteds.split(','));
             }
             else{

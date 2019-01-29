@@ -19,6 +19,7 @@ type Schedule struct {
 	Seq                    int
 	Qty                    string
 	MoldNumber             string
+	MachineName            stringmachines
 	TimeStart              string
 	TimeEnd                string
 	MachineMoldScheduleRel []*MachineMoldScheduleRel `orm:"reverse(many)"`

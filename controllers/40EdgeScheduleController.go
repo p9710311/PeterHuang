@@ -175,6 +175,7 @@ func (c *ScheduleController) Edit() {
 	}
 	Id, _ := c.GetInt(":id", 0)
 	m := &models.Schedule{}
+	user := models.Schedule{Id: Id}
 	var err error
 	if Id > 0 {
 		m, err = models.ScheduleOne(Id)
@@ -183,18 +184,26 @@ func (c *ScheduleController) Edit() {
 		}
 		o := orm.NewOrm()
 		o.LoadRelated(m, "MachineMoldScheduleRel")
+		o.Read(&user)
+		// if errr != nil {
+
+		// }
 	}
 
 	c.Data["m"] = m
 	//獲取關聯
 	var moldIds []string
 	var machineIds []string
+	var machinenamesstring string = strconv.Itoa(user.MachineId)
+	machinenames := []string{machinenamesstring}
 	for _, item := range m.MachineMoldScheduleRel {
 		moldIds = append(moldIds, strconv.Itoa(item.Mold.Id))
 		machineIds = append(machineIds, strconv.Itoa(item.Machine.Id))
 	}
+	// machineNames = strconv.Itoa(user.MachineName)
 	c.Data["molds"] = strings.Join(moldIds, ",")
 	c.Data["machines"] = strings.Join(machineIds, ",")
+	c.Data["machinenames"] = strings.Join(machinenames, ",")
 
 	c.setTpl("schedule/edit.html", "shared/layout_pullbox.html")
 	c.LayoutSections = make(map[string]string)
