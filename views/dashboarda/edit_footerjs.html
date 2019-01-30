@@ -8,11 +8,11 @@
    $(function () {		
         //驗證
         validateInfo();  
-        numberSelectInit('{{.machines}}'); 
+        numberSelectInit('{{.machinenames}}'); 
        
         macSelectInit();   
         nameSelectInit(); 
-        moldSelectInit('{{.molds}}');
+        moldSelectInit('{{.moldnames}}');
         // qtySelectInit();
     })	
 
@@ -31,12 +31,16 @@
         $("#MachineNumber").val( $( "#Numbers option:selected").text());
         $("#MacAddress").val($( "#Macs option:selected" ).val());
         $("#MachineName").val($( "#Names option:selected" ).val());
+        $("#MachineId").val($( "#Numbers option:selected" ).val());
+        $("#MachineId").text($( "#Numbers option:selected" ).val());
 
         
     }
     function ChangeFunction2(){
         var x = $( "#Molds option:selected").text();
         $("#MoldNumber").val(x);     
+        $("#MoldId").val($( "#Molds option:selected" ).val());
+        $("#MoldId").text($( "#Molds option:selected" ).val());
     }
     
     function macSelectInit(){
@@ -89,6 +93,9 @@
                 });
                 $select.html(html.join(''));
                 $select.selectpicker({liveSearch:true});
+                  console.log("machine selecteds: "+selecteds)
+                console.log("machine selecteds type: "+ typeof selecteds)
+               
                 $select.selectpicker('val',selecteds.split(','));
             }
             else{

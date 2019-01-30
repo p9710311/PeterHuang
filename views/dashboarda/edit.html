@@ -54,6 +54,13 @@
                     <select name="Macs" id="Macs" class="form-control"></select>
                 </div>
             </div>
+            
+             <div class="form-group" style="display: none;"><!--machineID -->
+                <input type="text" name="MachineId" id="MachineId" class="form-control" value="{{.m.MachineId}}">
+            </div>
+            <div class="form-group" style="display: none;"><!--moldID -->
+                <input type="text" name="MoldId" id="MoldId" class="form-control" value="{{.m.MoldId}}">
+            </div>
             <div class="form-group" style="display: none;">
                 <input type="text" name="MachineName" id="MachineName" class="form-control" value="{{.m.MachineName}}">
             </div>

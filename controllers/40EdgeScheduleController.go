@@ -185,9 +185,7 @@ func (c *ScheduleController) Edit() {
 		o := orm.NewOrm()
 		o.LoadRelated(m, "MachineMoldScheduleRel")
 		o.Read(&user)
-		// if errr != nil {
 
-		// }
 	}
 
 	c.Data["m"] = m

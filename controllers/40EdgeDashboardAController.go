@@ -69,6 +69,7 @@ func (c *DashboardAController) Edit() {
 	}
 	Id, _ := c.GetInt(":id", 0)
 	m := &models.DashboardA{}
+	user := models.DashboardA{Id: Id}
 	var err error
 	if Id > 0 {
 		// o := orm.NewOrm()
@@ -82,6 +83,7 @@ func (c *DashboardAController) Edit() {
 		}
 		o := orm.NewOrm()
 		o.LoadRelated(m, "MachineDashboardARel")
+		o.Read(&user)
 	}
 
 	c.Data["m"] = m
@@ -91,12 +93,20 @@ func (c *DashboardAController) Edit() {
 
 	var moldIds []string
 	var machineIds []string
+	var machinenamesstring string = strconv.Itoa(user.MachineId)
+	var moldstring string = strconv.Itoa(user.MoldId)
+	machinenames := []string{machinenamesstring}
+	moldnameid := []string{moldstring}
 	for _, item := range m.MachineDashboardARel {
 		moldIds = append(moldIds, strconv.Itoa(item.Mold.Id))
 		machineIds = append(machineIds, strconv.Itoa(item.Machine.Id))
+
 	}
 	c.Data["molds"] = strings.Join(moldIds, ",")
 	c.Data["machines"] = strings.Join(machineIds, ",")
+	c.Data["machinenames"] = strings.Join(machinenames, ",")
+	c.Data["moldnames"] = strings.Join(moldnameid, ",")
+
 }
 
 //Edit 添加、編輯角色界面
@@ -106,6 +116,7 @@ func (c *DashboardAController) Edit2() {
 	}
 	Id, _ := c.GetInt(":id", 0)
 	m := &models.DashboardA{}
+
 	var err error
 	if Id > 0 {
 		// o := orm.NewOrm()
@@ -119,6 +130,7 @@ func (c *DashboardAController) Edit2() {
 		}
 		o := orm.NewOrm()
 		o.LoadRelated(m, "MachineDashboardARel")
+
 	}
 
 	c.Data["m"] = m
@@ -127,12 +139,14 @@ func (c *DashboardAController) Edit2() {
 	c.LayoutSections["footerjs"] = "dashboarda/edit2_footerjs.html"
 	var moldIds []string
 	var machineIds []string
+
 	for _, item := range m.MachineDashboardARel {
 		moldIds = append(moldIds, strconv.Itoa(item.Mold.Id))
 		machineIds = append(machineIds, strconv.Itoa(item.Machine.Id))
 	}
 	c.Data["molds"] = strings.Join(moldIds, ",")
 	c.Data["machines"] = strings.Join(machineIds, ",")
+
 }
 
 //Save 添加、編輯頁面 保存

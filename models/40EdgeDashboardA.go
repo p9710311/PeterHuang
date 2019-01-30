@@ -53,7 +53,7 @@ type DashboardA struct {
 
 // DashboardAList 獲取分頁數據
 func DashboardAList(params *DashboardAQueryParam) ([]*DashboardA, int64) {
-	query := orm.NewOrm().QueryTable(DashboardATBName()).OrderBy("machine_number")
+	query := orm.NewOrm().QueryTable(DashboardATBName()).OrderBy("Seq")
 	data := make([]*DashboardA, 0)
 
 	total, _ := query.Count()
