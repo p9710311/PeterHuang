@@ -365,10 +365,10 @@ function stringtotime(str) {
     // var timeString = day + "d " + hr +"hr"
 
     if (day == 0){
-        var timeString = hr +"hr " + min + "min";
+        var timeString = hr +"h " + min + "m";
     }
     else {
-        var timeString = day + "d " + hr +"hr";
+        var timeString = day + "d " + hr +"h";
     }
     return timeString
     
