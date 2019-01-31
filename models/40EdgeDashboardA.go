@@ -32,6 +32,7 @@ type DashboardA struct {
 	ExcuteTime     string //訂單已執行時間
 	ExcuteQty      string //(訂單)已生產模次
 	Qty            string //訂單數量
+	FixQty         string
 	//各種狀態
 	ProgressHoliday  string
 	ProgressDowntime string

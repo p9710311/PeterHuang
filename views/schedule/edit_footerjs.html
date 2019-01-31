@@ -33,17 +33,18 @@
           $("#TimeStartinput").change(function(){
               var valute = $("#TimeStartinput").val()
               var checkday = parseInt(valute.substring(11, 13));
+              var inputval = valute.substring(0, 10)+" --- "+valute.substring(11, 16)
             //   console.log(valute)
-              if (checkday==0){
-                //var hrdata =(checkday-12).toString() 
-                var inputval = valute.substring(0, 10)+"上午"+valute.substring(11, 16)
-              }else if (checkday<12){
-                //var hrdata =(checkday-12).toString() 
-                var inputval = valute.substring(0, 10)+"上午"+valute.substring(11, 16)
-              }else{
-               // var hrdata =(checkday).toString() 
-                var inputval = valute.substring(0, 10)+"下午"+valute.substring(11, 16)
-              }
+            //   if (checkday==0){
+            //     //var hrdata =(checkday-12).toString() 
+            //     var inputval = valute.substring(0, 10)+"上午"+valute.substring(11, 16)
+            //   }else if (checkday<12){
+            //     //var hrdata =(checkday-12).toString() 
+            //     var inputval = valute.substring(0, 10)+"上午"+valute.substring(11, 16)
+            //   }else{
+            //    // var hrdata =(checkday).toString() 
+            //     var inputval = valute.substring(0, 10)+"下午"+valute.substring(11, 16)
+            //   }
             //   console.log(valute)
             //   console.log(typeof(valute))
             //   console.log(valute.substring(0, 10)+"_"+valute.substring(11, 16))
@@ -93,7 +94,7 @@
                 var html=[]
                 $(re.obj).each(function(i,e){
                     // console.log(e)
-                    html.push('<option value="'+e.Id+'">'+e.MachineNumber+"--"+e.MachineName+'</option>')
+                    html.push('<option value="'+e.Id+'">'+"("+e.MachineNumber+")--"+e.MachineName+'</option>')
                 });
                 $select.html(html.join(''));
                 $select.selectpicker({liveSearch:true});

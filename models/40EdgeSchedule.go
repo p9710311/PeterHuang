@@ -27,6 +27,7 @@ type Schedule struct {
 	MoldId                 int
 	MachineIds             []int `orm:"-" form:"MachineIds"`
 	MachineId              int
+	Update                 int
 }
 
 // SchedulePageList 獲取分頁數據

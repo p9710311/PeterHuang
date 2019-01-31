@@ -121,8 +121,8 @@
                 align: 'center',
                 width: '390px',
             }, {
-                field: 'Qty',
-                title: '生產數量',
+                field: 'FixQty',
+                title: '修正生產量',
                 align: 'center',
                 // width: '390px',
             // }, {
@@ -144,11 +144,11 @@
             //     align: 'center',
             //     sortable: true,
             //     editable: editable4Seq
-            }, {
-                field: 'PlanTimes',
-                title: '剩餘時間',
-                align: 'center',
-                formatter: 'stringtotime',
+            // }, {
+            //     field: 'PlanTimes',
+            //     title: '剩餘時間',
+            //     align: 'center',
+            //     formatter: 'stringtotime',
             }, {
                 field: 'Modified',
                 title: '修改時間',
@@ -168,7 +168,7 @@
                     }
                     if ('{{.canAllocate}}' === 'true') {
                         ret.push('<button class="btn btn-info btn-xs"  onclick="AllocateFun(' + row.Id + ')">' +
-                            '<i class="fa fa-th"></i> 更換模具</button>');
+                            '<i class="fa fa-th"></i> 修正生產量</button>');
                     }
                     ret.push('</div>')
                     return ret.join('');
