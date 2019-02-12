@@ -13,7 +13,9 @@
         collectionSelectInit();
         $("#Collections").change(function(){
               console.log($( "#Collections option:selected" ).text())
+              console.log($( "#Collections option:selected" ).val())
               $("#MacAddress").val($("#Collections option:selected").text())
+              $("#CollectionId").val($("#Collections option:selected").val())
             //  $("#CollectionId").text($("#Collections").val())
           })
     })	
@@ -23,10 +25,16 @@
         Collectionsafter0
          var idstring = "#"+id.id+" option:selected"
          var x = $(idstring).text();
-        // console.log(x)
+         var y = $(idstring).val();
+        // console.log(y)
          var textstring = "#MacAddress"+id.id.slice(16);
-         $(textstring).val($(idstring).text()); 
+         var textmacid = "#MacId"+id.id.slice(16);
+        //  $(textstring).val($(idstring).text()); 
          $(textstring).text($(idstring).text());
+         $(textstring).val($(idstring).text());
+         $(textmacid).text($(idstring).val());
+         $(textmacid).val($(idstring).val());
+        //  $("#CollectionId").val($("#Collections option:selected").val())
          
 
     }
@@ -38,11 +46,13 @@
             if(re.code === 0){               
                 var html=[]
                 $(re.obj).each(function(i,e){
-                    html.push('<option value="'+e.Id+'">'+e.MacAddress+'</option>')
+                    html.push('<option value="'+e.Id+'" selected="true">'+e.MacAddress+'</option>')
+                    $("#MacAddress").val($("#Collections option:selected").text())
+                    $("#CollectionId").val($("#Collections option:selected").val())
                 });
                 $select.html(html.join(''));
                 $select.selectpicker({liveSearch:true});
-                $select.selectpicker('val',selecteds.split(','));
+                // $select.selectpicker('val',selecteds.split(','));
             }
             else{
                 layer.alert("獲取資料失敗",{icon:2,title:'失敗'})
@@ -117,7 +127,7 @@
         console.log("add new")
         var idstring = "Collectionsafter"+listnum
         // $("#sec").append("<form class='form-horizontal' id='thisForm"+listnum+"'><input type='hidden' Name='Id' id='Id' value='{{.m.Id}}'><div class='form-group' id='dynamicdiv"+listnum+"'  ><div class='form-inline' ><div class='col-xs-2'></div><div class='col-xs-2'><input  type='text' id='focusedInput' name='MachineNumber' class='form-control' placeholder='' value='{{.m.MachineNumber}}'></div><div class='col-xs-2'><input  type='text' id='focusedInput' name='MachineName' class='form-control' placeholder='' value='{{.m.MachineName}}'> </div><div class='col-xs-2'><input  type='text' id='focusedInput' name='Brand' class='form-control' placeholder='' value='{{.m.Brand}}'></div><div class='col-xs-2'><select  name='CollectionIds' id='Collectionsafter"+listnum+"' class='form-control' onchange='ChangeFunction("+idstring+")'></select></div> <div class='form-group' style='display:none'><input type='text' id='focusedInput' name='MacAddress' id='MacAddress"+listnum+"' class='form-control' value='{{.m.MacAddress}}' ></div></div></div></form>");
-        $("#thisForm").after("<form class='form-horizontal' id='thisForm"+listnum+"'><input type='hidden' Name='Id' id='Id' value='{{.m.Id}}'><div class='form-group' id='dynamicdiv"+listnum+"'  ><div class='form-inline' ><div class='col-xs-2'></div><div class='col-xs-2'><input  type='text' id='focusedInput' name='MachineNumber' class='form-control' placeholder='' value='{{.m.MachineNumber}}'></div><div class='col-xs-2'><input  type='text' id='focusedInput' name='MachineName' class='form-control' placeholder='' value='{{.m.MachineName}}'> </div><div class='col-xs-2'><input  type='text' id='focusedInput' name='Brand' class='form-control' placeholder='' value='{{.m.Brand}}'></div><div class='col-xs-2'><select  name='CollectionIds' id='Collectionsafter"+listnum+"' class='form-control' onchange='ChangeFunction("+idstring+")'></select></div> <div class='form-group' style='display:none'><input type='text' id='focusedInput' name='MacAddress' id='MacAddress"+listnum+"' class='form-control' value='{{.m.MacAddress}}' ></div></div></div></form>");
+        $("#first").after("<div class='form-group' id='dynamicdiv"+listnum+"' name='dynamicdiv"+listnum+"'><div class='form-inline' ><div class='col-xs-2'> </div><div class='col-xs-2'><input  type='text' id='focusedInput' name='MachineNumber' class='form-control' placeholder='' value='{{.m.MachineNumber}}'></div><div class='col-xs-2'><input  type='text' id='focusedInput' name='MachineName' class='form-control' placeholder='' value='{{.m.MachineName}}'></div> <div class='col-xs-2'><input  type='text' id='focusedInput' name='Brand' class='form-control' placeholder='' value='{{.m.Brand}}'></div><div class='col-xs-2'><select  name='CollectionIds'id='Collectionsafter"+listnum+"' class='form-control' onchange='ChangeFunction("+idstring+")'></select></div><div class='form-group' style='display:none'><input type='text' name='MacAddress' id='MacAddress"+listnum+"'  class='form-control' value='{{.m.MacAddress}}'></div> <div class='form-group' style='display:none' > <input type='text' name='CollectionId' id='MacId"+listnum+"' class='form-control' value='{{.m.CollectionId}}'></div> </div> </div>");
     
         // $("#first").after("<div class='form-group'><div class='form-inline' id='first' name='first'><div class='col-xs-2'> </div><div class='col-xs-2'><input  type='text' id='focusedInput1' name='MachineNumber' class='form-control' placeholder='' value='{{.m.MachineNumber}}'></div><div class='col-xs-2'><input  type='text' id='focusedInput1' name='MachineName' class='form-control' placeholder='' value='{{.m.MachineName}}'></div><div class='col-xs-2'><input  type='text' id='focusedInput1' name='Brand' class='form-control' placeholder='' value='{{.m.Brand}}'></div><div class='col-xs-2'><select  name='CollectionIds' id='Collections' class='form-control' ></select></div><div class='form-group' style='display:none'><input type='text' name='MacAddress' id='MacAddress1' class='form-control' value='{{.m.MacAddress}}'></div> </div></div>");
        
@@ -137,11 +147,11 @@
             if(re.code === 0){               
                 var html=[]
                 $(re.obj).each(function(i,e){
-                    html.push('<option value="'+e.MacAddress+'">'+e.MacAddress+'</option>')
+                    html.push('<option value="'+e.Id+'">'+e.MacAddress+'</option>')
                 });
                 $select.html(html.join(''));
                 $select.selectpicker({liveSearch:true});
-                $select.selectpicker('val',selecteds.split(','));
+                // $select.selectpicker('val',selecteds.split(','));
             }
             else{
                 layer.alert("獲取資料失敗",{icon:2,title:'失敗'})

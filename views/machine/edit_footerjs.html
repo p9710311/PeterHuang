@@ -8,10 +8,11 @@
    $(function () {		
         //驗證
         validateInfo();  
-        collectionSelectInit('{{.collections}}');
+        collectionSelectInit('{{.macids}}');
         $("#Collections").change(function(){
               console.log($( "#Collections option:selected" ).text())
               $("#MacAddress").val($("#Collections option:selected").text())
+              $("#CollectionId").val($("#Collections option:selected").val())
             //  $("#CollectionId").text($("#Collections").val())
           })
     })	

@@ -67,6 +67,7 @@ func (c *MachineController) Edit() {
 	}
 	Id, _ := c.GetInt(":id", 0)
 	m := &models.Machine{}
+	user := models.Machine{Id: Id}
 	var err error
 	if Id > 0 {
 		m, err = models.MachineOne(Id)
@@ -75,6 +76,7 @@ func (c *MachineController) Edit() {
 		}
 		o := orm.NewOrm()
 		o.LoadRelated(m, "MachineCollectionRel")
+		o.Read(&user)
 	}
 	c.Data["m"] = m
 	c.setTpl("machine/edit.html", "shared/layout_pullbox.html")
@@ -82,10 +84,16 @@ func (c *MachineController) Edit() {
 	c.LayoutSections["footerjs"] = "machine/edit_footerjs.html"
 	//獲取關聯
 	var collectionIds []string
+	// var machIds []string
+	var macamesstring string = strconv.Itoa(user.CollectionId)
+	macnames := []string{macamesstring}
+
 	for _, item := range m.MachineCollectionRel {
 		collectionIds = append(collectionIds, strconv.Itoa(item.Collection.Id))
+		// macIds = append(macIds, strconv.Itoa(item.Machine.Id))
 	}
 	c.Data["collections"] = strings.Join(collectionIds, ",")
+	c.Data["macids"] = strings.Join(macnames, ",")
 
 }
 
@@ -96,9 +104,11 @@ func (c *MachineController) Edit2() {
 	}
 	Id, _ := c.GetInt(":id", 0)
 	m := models.Machine{Id: Id}
+	user := models.Machine{Id: Id}
 	if Id > 0 {
 		o := orm.NewOrm()
 		err := o.Read(&m)
+		o.Read(&user)
 		if err != nil {
 			c.pageError("數據無效，請刷新後重試")
 		}

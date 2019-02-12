@@ -31,6 +31,10 @@ type Machine struct {
 	MachineCollectionRel   []*MachineCollectionRel   `orm:"reverse(many)"`
 	MachineDashboardARel   []*MachineDashboardARel   `orm:"reverse(many)"`
 	Modified               time.Time                 `orm:"auto_now;type(datetime)"`
+	CollectionId           int
+}
+type Machinearray struct {
+	Machinearr []Machine
 }
 
 // CollectionPageList 獲取分頁數據

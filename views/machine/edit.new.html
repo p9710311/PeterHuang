@@ -5,7 +5,7 @@
         <form class="form-horizontal" id="thisForm">
            
             
-            <input type="hidden" Name="Id" id="Id" value="{{.m.Id}}">
+            <!-- <input type="hidden" Name="Id" id="Id" value="{{.m.Id}}"> -->
             <div class="form-group">
                 <div class="col-xs-2"> </div>
                 <label class="col-sm-2 control-label" >射出機編號</label>
@@ -31,6 +31,9 @@
 
                     <div class="form-group" style="display:none">
                         <input type="text" name="MacAddress" id="MacAddress" class="form-control" value="{{.m.MacAddress}}">
+                    </div> 
+                    <div class="form-group" style="display:none">
+                        <input type="text" name="CollectionId" id="CollectionId" class="form-control" value="{{.m.CollectionId}}">
                     </div> 
 
                 </div>
