@@ -33,9 +33,6 @@ type Machine struct {
 	Modified               time.Time                 `orm:"auto_now;type(datetime)"`
 	CollectionId           int
 }
-type Machinearray struct {
-	Machinearr []Machine
-}
 
 // CollectionPageList 獲取分頁數據
 func MachinePageList(params *MachineQueryParam) ([]*Machine, int64) {

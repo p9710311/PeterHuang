@@ -104,11 +104,10 @@ func (c *MachineController) Edit2() {
 	}
 	Id, _ := c.GetInt(":id", 0)
 	m := models.Machine{Id: Id}
-	user := models.Machine{Id: Id}
+
 	if Id > 0 {
 		o := orm.NewOrm()
 		err := o.Read(&m)
-		o.Read(&user)
 		if err != nil {
 			c.pageError("數據無效，請刷新後重試")
 		}
@@ -128,6 +127,7 @@ func (c *MachineController) Save() {
 	//獲取form裡的值
 	if err = c.ParseForm(&m); err != nil {
 		c.jsonResult(enums.JRCodeFailed, "獲取數據失敗", m.Id)
+
 	}
 	//刪除已關聯的歷史數據
 	if _, err := o.QueryTable(models.MachineCollectionRelTBName()).Filter("machine__id", m.Id).Delete(); err != nil {
