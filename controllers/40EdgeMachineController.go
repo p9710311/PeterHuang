@@ -125,10 +125,20 @@ func (c *MachineController) Save() {
 	m := models.Machine{}
 	o := orm.NewOrm()
 	//獲取form裡的值
+	fmt.Println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+	fmt.Println(c)
+	fmt.Println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
 	if err = c.ParseForm(&m); err != nil {
 		c.jsonResult(enums.JRCodeFailed, "獲取數據失敗", m.Id)
 
 	}
+	fmt.Println(m)
+	if err = c.ParseForm(&m); err != nil {
+		c.jsonResult(enums.JRCodeFailed, "獲取數據失敗", m.Id)
+
+	}
+	fmt.Println(m)
+
 	//刪除已關聯的歷史數據
 	if _, err := o.QueryTable(models.MachineCollectionRelTBName()).Filter("machine__id", m.Id).Delete(); err != nil {
 		c.jsonResult(enums.JRCodeFailed, "刪除歷史關係失敗", "")
