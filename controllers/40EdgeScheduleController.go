@@ -193,7 +193,7 @@ func (c *ScheduleController) Edit() {
 	//獲取關聯
 	var moldIds []string
 	var machineIds []string
-	var timestring []string
+	// var timestring []string
 
 	var machinenamesstring string = strconv.Itoa(user.MachineId)
 	machinenames := []string{machinenamesstring}
