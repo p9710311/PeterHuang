@@ -168,6 +168,7 @@ func (c *ScheduleController) UpdateSeq() {
 	}
 }
 
+//編輯排程
 func (c *ScheduleController) Edit() {
 	//如果是Post請求，則由Save處理
 	if c.Ctx.Request.Method == "POST" {
@@ -206,6 +207,47 @@ func (c *ScheduleController) Edit() {
 	c.setTpl("schedule/edit.html", "shared/layout_pullbox.html")
 	c.LayoutSections = make(map[string]string)
 	c.LayoutSections["footerjs"] = "schedule/edit_footerjs.html"
+}
+
+//新增排程
+func (c *ScheduleController) Edit2() {
+	//如果是Post請求，則由Save處理
+	if c.Ctx.Request.Method == "POST" {
+		c.Save()
+	}
+	Id, _ := c.GetInt(":id", 0)
+	m := &models.Schedule{}
+	user := models.Schedule{Id: Id}
+	var err error
+	if Id > 0 {
+		m, err = models.ScheduleOne(Id)
+		if err != nil {
+			c.pageError("數據無效，請刷新後重試")
+		}
+		o := orm.NewOrm()
+		o.LoadRelated(m, "MachineMoldScheduleRel")
+		o.Read(&user)
+
+	}
+
+	c.Data["m"] = m
+	//獲取關聯
+	var moldIds []string
+	var machineIds []string
+	var machinenamesstring string = strconv.Itoa(user.MachineId)
+	machinenames := []string{machinenamesstring}
+	for _, item := range m.MachineMoldScheduleRel {
+		moldIds = append(moldIds, strconv.Itoa(item.Mold.Id))
+		machineIds = append(machineIds, strconv.Itoa(item.Machine.Id))
+	}
+	// machineNames = strconv.Itoa(user.MachineName)
+	c.Data["molds"] = strings.Join(moldIds, ",")
+	c.Data["machines"] = strings.Join(machineIds, ",")
+	c.Data["machinenames"] = strings.Join(machinenames, ",")
+
+	c.setTpl("schedule/edit.new.html", "shared/layout_pullbox.html")
+	c.LayoutSections = make(map[string]string)
+	c.LayoutSections["footerjs"] = "schedule/edit_footerjs.new.html"
 }
 
 func (c *ScheduleController) Save() {

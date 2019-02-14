@@ -89,6 +89,7 @@ func init() {
 	beego.Router("/schedule/index", &controllers.ScheduleController{}, "*:Index")
 	beego.Router("/schedule/datagrid", &controllers.ScheduleController{}, "Get,Post:DataGrid")
 	beego.Router("/schedule/edit/?:id", &controllers.ScheduleController{}, "Get,Post:Edit")
+	beego.Router("/schedule/edit2/?:id", &controllers.ScheduleController{}, "Get,Post:Edit2")
 	beego.Router("/schedule/delete", &controllers.ScheduleController{}, "Post:Delete")
 	beego.Router("/schedule/datalist", &controllers.ScheduleController{}, "Post:DataList")
 	beego.Router("/schedule/updateseq", &controllers.ScheduleController{}, "Post:UpdateSeq")

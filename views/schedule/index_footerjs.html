@@ -216,6 +216,28 @@
             }
         });
     }
+    function EditFunNew(Id) {
+        var title = '新增排程';
+        if (Id > 0) {
+            title = "編輯排程"
+        }
+        var url = '{{ urlfor "ScheduleController.Edit2"}}' + '/' + Id;
+        layer.open({
+            type: 2,
+            title: title,
+            shadeClose: false,
+            shade: 0.2,
+            maxmin: true,
+            shift: 1,
+            area: ['800px', '400px'],
+            content: url,
+            btn: ['儲存', '關閉'],
+            yes: function (index, layero) {
+                var iframeWin = window[layero.find('iframe')[0]['name']];
+                iframeWin.FormSubmit();
+            }
+        });
+    }
 
     function DeleteFun() {
         var url = '{{ urlfor "ScheduleController.Delete"}}';

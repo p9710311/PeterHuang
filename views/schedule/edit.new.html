@@ -1,0 +1,68 @@
+<div class="row">
+        <!-- form start -->
+        <button type="button" class="btn btn-primary btn-sm" onclick=NewDiv()>新增一筆</button>
+        <button type="button" class="btn btn-primary btn-sm" onclick=DelDiv()>刪除一筆</button>
+  
+        <form class="form-horizontal" id="thisForm">
+            <input type="hidden" Name="Id" id="Id" value="{{.m.Id}}">
+          
+            <div class="form-group">
+                <div class="col-xs-2"> </div>
+                <label class="col-sm-2 control-label" required="required">模號</label>
+                <label class="col-sm-2 control-label">射出機</label>
+                <label class="col-sm-2 control-label">生產數量</label>
+                <label class="col-sm-2 control-label">開始時間</label>
+            </div>
+            <div class="form-group" id="first" name="first">
+                <div class="form-inline">
+                    <div class="col-xs-2"></div>
+                    <div class="col-xs-2">
+                            <select name="MoldIds" id="Molds" class="form-control"  required="required" ></select>
+                    </div>
+                    <div class="col-xs-2">
+                            <select name="MachineIds" id="Machines" class="form-control" required="required"></select>
+                    </div>
+                    <div class="col-xs-2">
+                            <input type="text" name="Qty" class="form-control" placeholder="" value="{{.m.Qty}}"  required="required">
+                    </div>
+                    <div class="col-xs-2" >
+                          
+                            <input type="datetime-local" name="TimeStartinput" id="TimeStartinput" class="form-control" placeholder="" value="{{.m.TimeStart}}"  required="required">
+                        </div>
+                    <!-- 隱藏 -->
+                    <div class="form-group" style="display:none">
+                        <label class="col-sm-2 control-label">MoldId</label>
+                        <input type="text" name="MoldId" id="MoldId" class="form-control" placeholder="" value="{{.m.MoldId}}">
+                    </div>
+                    <div class="form-group" style="display:none">
+                        <label class="col-sm-2 control-label">MachineName</label>
+                        <input type="text" name="MachineName" id="MachineName" class="form-control" placeholder="" value="{{.m.MachineName}}">
+                    </div>
+                    <div class="form-group" style="display:none">
+                        <label class="col-sm-2 control-label">MachineId</label>
+                        <input type="text" name="MachineId" id="MachineId" class="form-control" placeholder="" value="{{.m.MachineId}}">
+                    </div>
+                    <div class="form-group" style="display:none">
+                        <label class="col-sm-2 control-label">模具text</label>
+                        <input type="text" name="MoldNumber" id="MoldNumber" class="form-control" placeholder="" value="{{.m.MoldNumber}}">
+                    </div>
+                    
+                    <div class="form-group" style="display:none">
+                        <label class="col-sm-2 control-label">TimeStart</label>
+                        <input type="text" name="TimeStart" id="TimeStart" class="form-control" placeholder="" value="{{.m.MachineId}}">
+                    </div>
+
+
+                </div>
+            </div>
+
+            
+         
+
+
+
+            
+                
+     
+        </form>
+    </div>

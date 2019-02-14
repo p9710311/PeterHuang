@@ -20,7 +20,8 @@
           })
     })	
     function ChangeFunction(id){
-        // console.log(id.id)
+        console.log(id)
+         console.log(id.id)
         
         Collectionsafter0
          var idstring = "#"+id.id+" option:selected"
@@ -153,6 +154,7 @@
     function NewDiv(){
         // console.log("add new")
         var idstring = "Collectionsafter"+listnum
+                   
         // $("#sec").append("<form class='form-horizontal' id='thisForm"+listnum+"'><input type='hidden' Name='Id' id='Id' value='{{.m.Id}}'><div class='form-group' id='dynamicdiv"+listnum+"'  ><div class='form-inline' ><div class='col-xs-2'></div><div class='col-xs-2'><input  type='text' id='focusedInput' name='MachineNumber' class='form-control' placeholder='' value='{{.m.MachineNumber}}'></div><div class='col-xs-2'><input  type='text' id='focusedInput' name='MachineName' class='form-control' placeholder='' value='{{.m.MachineName}}'> </div><div class='col-xs-2'><input  type='text' id='focusedInput' name='Brand' class='form-control' placeholder='' value='{{.m.Brand}}'></div><div class='col-xs-2'><select  name='CollectionIds' id='Collectionsafter"+listnum+"' class='form-control' onchange='ChangeFunction("+idstring+")'></select></div> <div class='form-group' style='display:none'><input type='text' id='focusedInput' name='MacAddress' id='MacAddress"+listnum+"' class='form-control' value='{{.m.MacAddress}}' ></div></div></div></form>");
         $("#first").after("<div class='form-group' id='dynamicdiv"+listnum+"' name='dynamicdiv"+listnum+"'><div class='form-inline' ><div class='col-xs-2'> </div><div class='col-xs-2'><input  type='text' id='focusedInputMachineNumber"+listnum+"' name='MachineNumber' class='form-control' placeholder='' value='{{.m.MachineNumber}}'></div><div class='col-xs-2'><input  type='text' id='focusedInputMachineName"+listnum+"' name='MachineName' class='form-control' placeholder='' value='{{.m.MachineName}}'></div> <div class='col-xs-2'><input  type='text' id='focusedInputBrand"+listnum+"' name='Brand' class='form-control' placeholder='' value='{{.m.Brand}}'></div><div class='col-xs-2'><select  name='CollectionIds'id='Collectionsafter"+listnum+"' class='form-control' onchange='ChangeFunction("+idstring+")'></select></div><div class='form-group' style='display:none'><input type='text' name='MacAddress' id='MacAddress"+listnum+"'  class='form-control' value='{{.m.MacAddress}}'></div> <div class='form-group' style='display:none' > <input type='text' name='CollectionId' id='MacId"+listnum+"' class='form-control' value='{{.m.CollectionId}}'></div> </div> </div>");
     
