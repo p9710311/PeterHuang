@@ -28,11 +28,13 @@ type Schedule struct {
 	MachineIds             []int `orm:"-" form:"MachineIds"`
 	MachineId              int
 	Update                 int
+	TimeStartinput         string
 }
 
 // SchedulePageList 獲取分頁數據
 func SchedulePageList(params *ScheduleQueryParam) ([]*Schedule, int64) {
-	query := orm.NewOrm().QueryTable(ScheduleTBName())
+	query := orm.NewOrm().QueryTable(ScheduleTBName()).OrderBy("TimeStart")
+
 	data := make([]*Schedule, 0)
 	//默認排序
 	sortorder := "Id"

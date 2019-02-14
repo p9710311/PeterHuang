@@ -30,6 +30,7 @@
           })
           $("#TimeStartinput").change(function(){
               var valute = $("#TimeStartinput").val()
+              console.log(valute)
               var checkday = parseInt(valute.substring(11, 13));
               var inputval = valute.substring(0, 10)+" --- "+valute.substring(11, 16)
               
@@ -40,9 +41,42 @@
           })
          
     })
+    function ChangeFunctionTime(id){
+        // console.log(id)
+        // console.log(id.id)
+        // console.log(id.id.slice(14))
 
+        var timeid ="#"+id.id
+        var valute = $(timeid).val()
+        var checkday = parseInt(valute.substring(11, 13));
+        var inputval = valute.substring(0, 10)+" --- "+valute.substring(11, 16)
+        $("#TimeStart"+id.id.slice(14)).val(inputval)
+        $("#TimeStart"+id.id.slice(14)).text(inputval)
 
-    function ChangeFunction(id){
+    }
+    function ChangeFunctionMachine(id){
+        // console.log(id)
+          console.log(id.id)
+         var idstring = "#"+id.id+" option:selected"
+         var x = $(idstring).text();
+         var y = $(idstring).val();
+        //   console.log(x)
+        //   console.log(y)
+
+        //   console.log(id.id.slice(8))
+         var MachineIdstring = "#MachineId"+id.id.slice(8)
+         var MachineNamestring = "#MachineName"+id.id.slice(8)
+
+         
+
+         $(MachineNamestring).val(x)
+         $(MachineNamestring).text(x)
+
+         $(MachineIdstring).val(y)
+         $(MachineIdstring).text(y)
+        
+    }
+    function ChangeFunctionMold(id){
         // console.log(id)
           console.log(id.id)
          var idstring = "#"+id.id+" option:selected"
@@ -55,14 +89,11 @@
          var Moldidstring = "#MoldId"+id.id.slice(5)
          var MoldNumberstring = "#MoldNumber"+id.id.slice(5)
 
-            $(Moldidstring).val(x)
-            $(Moldidstring).text(x)
+            $(Moldidstring).val(y)
+            $(Moldidstring).text(y)
           
-            $(MoldNumberstring).text(y)
-            $(MoldNumberstring).val(y)
-
-         
-
+            $(MoldNumberstring).text(x)
+            $(MoldNumberstring).val(x)
     }
     function pageInit(){
         //角色下拉框初始化
@@ -152,7 +183,9 @@
        
         var moldidstring = "mold"+listnum;
         var machineidstring = "machine"+listnum;
-         $("#first").after("<div class='form-group' id='dynamicdiv"+listnum+"' name='dynamicdiv"+listnum+"'><div class='form-inline'><div class='col-xs-2'></div><div class='col-xs-2'><select name='MoldIds' id='Molds"+listnum+"' class='form-control'  required='required' onchange='ChangeFunction(Molds"+listnum+")'></select></div><div class='col-xs-2'><select name='MachineIds' id='Machines"+listnum+"' class='form-control' required='required'  onchange='ChangeFunction(Machines"+listnum+")'></select></div><div class='col-xs-2'> <input type='text' id='Qty"+listnum+"' name='Qty"+listnum+"' class='form-control'  value='{{.m.Qty}}'  required='required'></div><div class='col-xs-2' ><input type='datetime-local' name='TimeStartinput' id='TimeStartinput"+listnum+"' class='form-control'  value='{{.m.TimeStart}}'  required='required' onchange='ChangeFunction(TimeStartinput"+listnum+")'></div><!-- 隱藏 --><div class='form-group' style='display:none'><label class='col-sm-2 control-label'>MoldId</label><input type='text' name='MoldId' id='MoldId"+listnum+"' class='form-control'  value='{{.m.MoldId}}'></div><div class='form-group' style='display:none'><label class='col-sm-2 control-label'>MachineName</label><input type='text' name='MachineName' id='MachineName"+listnum+"' class='form-control'  value='{{.m.MachineName}}'></div><div class='form-group' style='display:none'><label class='col-sm-2 control-label'>MachineId</label><input type='text' name='MachineId' id='MachineId"+listnum+"' class='form-control'  value='{{.m.MachineId}}'></div><div class='form-group' style='display:none'><label class='col-sm-2 control-label'>模具text</label><input type='text' name='MoldNumber' id='MoldNumber"+listnum+"' class='form-control'  value='{{.m.MoldNumber}}'></div><div class='form-group' style='display:none'><label class='col-sm-2 control-label'>TimeStart</label><input type='text' name='TimeStart' id='TimeStart"+listnum+"' class='form-control'  value='{{.m.MachineId}}'></div></div></div>");
+        $("#first").after("<div class='form-group' id='dynamicdiv"+listnum+"' name='dynamicdiv"+listnum+"'><div class='form-inline'><div class='col-xs-2'></div><div class='col-xs-2'><select name='MoldIds' id='Molds"+listnum+"' class='form-control'  required='required' onchange='ChangeFunctionMold(Molds"+listnum+")'></select></div><div class='col-xs-2'><select name='MachineIds' id='Machines"+listnum+"' class='form-control' required='required'  onchange='ChangeFunctionMachine(Machines"+listnum+")'></select></div><div class='col-xs-2'> <input type='text' id='Qty"+listnum+"' name='Qty"+listnum+"' class='form-control'  value='{{.m.Qty}}'  required='required'></div><div class='col-xs-2' ><input type='datetime-local' name='TimeStartinput' id='TimeStartinput"+listnum+"' class='form-control'  value='{{.m.TimeStart}}'  required='required' onchange='ChangeFunctionTime(TimeStartinput"+listnum+")'></div><!-- 隱藏 --><div class='form-group' style='display:none;'><label class='col-sm-2 control-label'>MoldId</label><input type='text' name='MoldId' id='MoldId"+listnum+"' class='form-control'  value='{{.m.MoldId}}'></div><div class='form-group' style='display:none;'><label class='col-sm-2 control-label'>MachineName</label><input type='text' name='MachineName' id='MachineName"+listnum+"' class='form-control'  value='{{.m.MachineName}}'></div><div class='form-group' style='display:none;'><label class='col-sm-2 control-label'>MachineId</label><input type='text' name='MachineId' id='MachineId"+listnum+"' class='form-control'  value='{{.m.MachineId}}'></div><div class='form-group' style='display:none;'><label class='col-sm-2 control-label'>模具text</label><input type='text' name='MoldNumber' id='MoldNumber"+listnum+"' class='form-control'  value='{{.m.MoldNumber}}'></div><div class='form-group' style='display:none;'><label class='col-sm-2 control-label'>TimeStart</label><input type='text' name='TimeStart' id='TimeStart"+listnum+"' class='form-control'  value='{{.m.MachineId}}'></div></div></div>");
+
+         
          moldSelectInitafter('{{.molds}}')
          machineSelectInitafter('{{.machine}}')
         listnum++;
@@ -220,6 +253,36 @@
 
 
     function FormSubmit() {
-        $("#thisForm").submit();		
+        $("#thisForm").submit();
+        for(var i=0 ; i<listnum ; i++){
+            var qtrstring = "#Qty"+i 
+            var moldidstring = "#MoldId"+i 
+            var machinenamestring = "#MachineName"+i 
+            var machineidstring = "#MachineId"+i 
+            var moldnumberstring = "#MoldNumber"+i 
+            var timestring = "#TimeStart"+i 
+            
+            console.log($(moldidstring).val())
+            $("#Qty").text($(qtrstring).text());
+            $("#Qty").val($(qtrstring).val());
+
+            $("#MoldId").text($(moldidstring).text());
+            $("#MoldId").val($(moldidstring).val());
+
+            $("#MachineName").text($(machinenamestring).text());
+            $("#MachineName").val($(machinenamestring).val());
+            
+            $("#MachineId").text($(machineidstring).text());
+            $("#MachineId").val($(machineidstring).val());
+            
+            $("#MoldNumber").text($(moldnumberstring).text());
+            $("#MoldNumber").val($(moldnumberstring).val());
+
+            $("#TimeStart").text($(timestring).text());
+            $("#TimeStart").val($(timestring).val());
+            
+            $("#thisForm").submit();
+
+        }		
     }
 </script>

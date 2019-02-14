@@ -34,20 +34,6 @@
               var valute = $("#TimeStartinput").val()
               var checkday = parseInt(valute.substring(11, 13));
               var inputval = valute.substring(0, 10)+" --- "+valute.substring(11, 16)
-            //   console.log(valute)
-            //   if (checkday==0){
-            //     //var hrdata =(checkday-12).toString() 
-            //     var inputval = valute.substring(0, 10)+"上午"+valute.substring(11, 16)
-            //   }else if (checkday<12){
-            //     //var hrdata =(checkday-12).toString() 
-            //     var inputval = valute.substring(0, 10)+"上午"+valute.substring(11, 16)
-            //   }else{
-            //    // var hrdata =(checkday).toString() 
-            //     var inputval = valute.substring(0, 10)+"下午"+valute.substring(11, 16)
-            //   }
-            //   console.log(valute)
-            //   console.log(typeof(valute))
-            //   console.log(valute.substring(0, 10)+"_"+valute.substring(11, 16))
               
               $("#TimeStart").val(inputval)
               $("#TimeStart").text(inputval)
@@ -61,6 +47,8 @@
         moldSelectInit('{{.molds}}');
         machineSelectInit('{{.machinenames}}')
         validateInfo(); 
+        console.log( $("#TimeStart").val())
+        $("#TimeStart").val('{{.m.TimeStart}}')
     }   
     function moldSelectInit(selecteds){
         var url = '{{urlfor "MoldController.DataList"}}';
