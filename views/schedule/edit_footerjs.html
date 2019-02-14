@@ -47,8 +47,9 @@
         moldSelectInit('{{.molds}}');
         machineSelectInit('{{.machinenames}}')
         validateInfo(); 
-        console.log( $("#TimeStart").val())
-        $("#TimeStart").val('{{.m.TimeStart}}')
+        var timestring =$("#TimeStart").val()
+        timestring = timestring.substr(0, 10)+"T"+ timestring.substr(15, 20)
+        $("#TimeStartinput").val( timestring)
     }   
     function moldSelectInit(selecteds){
         var url = '{{urlfor "MoldController.DataList"}}';
