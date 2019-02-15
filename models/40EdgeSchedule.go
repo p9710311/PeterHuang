@@ -29,27 +29,30 @@ type Schedule struct {
 	MachineId              int
 	Update                 int
 	TimeStartinput         string
+	TimeEndinput           string
+	TimeStamp              int
 }
 
 // SchedulePageList 獲取分頁數據
 func SchedulePageList(params *ScheduleQueryParam) ([]*Schedule, int64) {
-	query := orm.NewOrm().QueryTable(ScheduleTBName()).OrderBy("TimeStart")
+	query := orm.NewOrm().QueryTable(ScheduleTBName()).OrderBy("TimeStamp")
 
 	data := make([]*Schedule, 0)
 	//默認排序
-	sortorder := "Id"
-	switch params.Sort {
-	case "Id":
-		sortorder = "Id"
-	case "Seq":
-		sortorder = "Seq"
-	}
-	if params.Order == "desc" {
-		sortorder = "-" + sortorder
-	}
+	// sortorder := "Id"
+	// switch params.Sort {
+	// case "Id":
+	// 	sortorder = "Id"
+	// case "Seq":
+	// 	sortorder = "Seq"
+	// }
+	// if params.Order == "desc" {
+	// 	sortorder = "-" + sortorder
+	// }
 	query = query.Filter("moldnumber__istartswith", params.MoldNumberLike)
 	total, _ := query.Count()
-	query.OrderBy(sortorder).Limit(params.Limit, params.Offset).All(&data)
+	// query.OrderBy(sortorder).Limit(params.Limit, params.Offset).All(&data)
+	query.Limit(params.Limit, params.Offset).All(&data)
 	return data, total
 }
 

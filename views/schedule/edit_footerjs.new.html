@@ -30,28 +30,73 @@
           })
           $("#TimeStartinput").change(function(){
               var valute = $("#TimeStartinput").val()
-              console.log(valute)
+            //   console.log(valute)
               var checkday = parseInt(valute.substring(11, 13));
               var inputval = valute.substring(0, 10)+" --- "+valute.substring(11, 16)
+
+              var DataTime = new Date(valute)
+              var timestamp = Math.floor(DataTime / 1000);
+            //   console.log(typeof(timestamp))
+             //   console.log(DataTime)
               
               $("#TimeStart").val(inputval)
               $("#TimeStart").text(inputval)
+              $("#TimeEndinput").val(valute)
+              $("#TimeEnd").val(inputval)
+              $("#TimeEnd").text(inputval)
 
-            
+              $("#TimeStamp").val(timestamp)
+          })
+          $("#TimeEndinput").change(function(){
+              var valute = $("#TimeEndinput").val()
+            //   console.log(valute)
+              var checkday = parseInt(valute.substring(11, 13));
+              var inputval = valute.substring(0, 10)+" --- "+valute.substring(11, 16)
+              
+              $("#TimeEnd").val(inputval)
+              $("#TimeEnd").text(inputval)
+
+            //   var valuteST = $("#TimeStartinput").val()
+            //   var valuteEnd = $("#TimeEndinput").val()
+            //   if (valuteST>valuteEnd){
+            //     console.log("ST:"+valuteST)
+            //     alert("Hello! I am an alert box!");
+            //   }else{
+            //     console.log("END:"+valuteEnd)
+            //   }
+            //   console.log("---------------")
+            //   console.log("valuteST:"+valuteST)
+            //   console.log("valuteEnd:"+valuteEnd)
           })
          
     })
     function ChangeFunctionTime(id){
-        // console.log(id)
-        // console.log(id.id)
-        // console.log(id.id.slice(14))
-
+       
         var timeid ="#"+id.id
         var valute = $(timeid).val()
         var checkday = parseInt(valute.substring(11, 13));
         var inputval = valute.substring(0, 10)+" --- "+valute.substring(11, 16)
         $("#TimeStart"+id.id.slice(14)).val(inputval)
         $("#TimeStart"+id.id.slice(14)).text(inputval)
+        $("#TimeEndinput"+id.id.slice(14)).val(valute)
+        $("#TimeEnd"+id.id.slice(14)).val(inputval)
+        $("#TimeEnd"+id.id.slice(14)).text(inputval)
+        var DataTime = new Date(valute)
+        var timestamp = Math.floor(DataTime / 1000);
+            //   console.log(typeof(timestamp))
+             //   console.log(DataTime)
+        $("#TimeStamp"+id.id.slice(14)).val(timestamp)
+
+    }
+    function ChangeFunctionTimeEnd(id){
+        console.log(id.id.slice(12))
+    
+        var timeid ="#"+id.id
+        var valute = $(timeid).val()
+        var checkday = parseInt(valute.substring(11, 13));
+        var inputval = valute.substring(0, 10)+" --- "+valute.substring(11, 16)
+        $("#TimeEnd"+id.id.slice(12)).val(inputval)
+        $("#TimeEnd"+id.id.slice(12)).text(inputval)
 
     }
     function ChangeFunctionMachine(id){
@@ -183,7 +228,7 @@
        
         var moldidstring = "mold"+listnum;
         var machineidstring = "machine"+listnum;
-        $("#first").after("<div class='form-group' id='dynamicdiv"+listnum+"' name='dynamicdiv"+listnum+"'><div class='form-inline'><div class='col-xs-2'></div><div class='col-xs-2'><select name='MoldIds' id='Molds"+listnum+"' class='form-control'  required='required' onchange='ChangeFunctionMold(Molds"+listnum+")'></select></div><div class='col-xs-2'><select name='MachineIds' id='Machines"+listnum+"' class='form-control' required='required'  onchange='ChangeFunctionMachine(Machines"+listnum+")'></select></div><div class='col-xs-2'> <input type='text' id='Qty"+listnum+"' name='Qty"+listnum+"' class='form-control'  value='{{.m.Qty}}'  required='required'></div><div class='col-xs-2' ><input type='datetime-local' name='TimeStartinput' id='TimeStartinput"+listnum+"' class='form-control'  value='{{.m.TimeStart}}'  required='required' onchange='ChangeFunctionTime(TimeStartinput"+listnum+")'></div><!-- 隱藏 --><div class='form-group' style='display:none;'><label class='col-sm-2 control-label'>MoldId</label><input type='text' name='MoldId' id='MoldId"+listnum+"' class='form-control'  value='{{.m.MoldId}}'></div><div class='form-group' style='display:none;'><label class='col-sm-2 control-label'>MachineName</label><input type='text' name='MachineName' id='MachineName"+listnum+"' class='form-control'  value='{{.m.MachineName}}'></div><div class='form-group' style='display:none;'><label class='col-sm-2 control-label'>MachineId</label><input type='text' name='MachineId' id='MachineId"+listnum+"' class='form-control'  value='{{.m.MachineId}}'></div><div class='form-group' style='display:none;'><label class='col-sm-2 control-label'>模具text</label><input type='text' name='MoldNumber' id='MoldNumber"+listnum+"' class='form-control'  value='{{.m.MoldNumber}}'></div><div class='form-group' style='display:none;'><label class='col-sm-2 control-label'>TimeStart</label><input type='text' name='TimeStart' id='TimeStart"+listnum+"' class='form-control'  value='{{.m.MachineId}}'></div></div></div>");
+        $("#first").after("<div class='form-group' id='dynamicdiv"+listnum+"'><div class='form-inline'><div class='col-xs-2'><select class='form-control' id='Molds"+listnum+"' name='MoldIds' onchange='ChangeFunctionMold(Molds"+listnum+")' required='required'></select></div><div class='col-xs-2'><select class='form-control' id='Machines"+listnum+"' name='MachineIds' onchange='ChangeFunctionMachine(Machines"+listnum+")' required='required'></select></div><div class='col-xs-2'><input class='form-control' id='Qty"+listnum+"' name='Qty"+listnum+"' required='required' type='text' value='{{.m.Qty}}'></div><div class='col-xs-2'><input class='form-control' id='TimeStartinput"+listnum+"' name='TimeStartinput' onchange='ChangeFunctionTime(TimeStartinput"+listnum+")' required='required' type='datetime-local' value='{{.m.TimeStart}}'></div><div class='col-xs-2'><input class='form-control' id='TimeEndinput"+listnum+"' name='TimeEndinput' onchange='ChangeFunctionTimeEnd(TimeEndinput"+listnum+")' required='required' type='datetime-local' value='{{.m.TimeEnd}}'></div><!-- 隱藏 --><div class='form-group' style='display:none;'><label class='col-sm-2 control-label'>MoldId</label><input class='form-control' id='MoldId"+listnum+"' name='MoldId' type='text' value='{{.m.MoldId}}'></div><div class='form-group' style='display:none;'><label class='col-sm-2 control-label'>MachineName</label><input class='form-control' id='MachineName"+listnum+"' name='MachineName' type='text' value='{{.m.MachineName}}'></div><div class='form-group' style='display:none;'><label class='col-sm-2 control-label'>MachineId</label><input class='form-control' id='MachineId"+listnum+"' name='MachineId' type='text' value='{{.m.MachineId}}'></div><div class='form-group' style='display:none;'><label class='col-sm-2 control-label'>模具text</label><input class='form-control' id='MoldNumber"+listnum+"' name='MoldNumber' type='text' value='{{.m.MoldNumber}}'></div><div class='form-group' style='display:none;'><label class='col-sm-2 control-label'>TimeStart</label><input class='form-control' id='TimeStart"+listnum+"' name='TimeStart' type='text'></div><div class='form-group' style='display:none;'><label class='col-sm-2 control-label'>TimeEnd</label><input class='form-control' id='TimeEnd"+listnum+"' name='TimeEnd' type='text'></div><div class='form-group' style='display:none;'><label class='col-sm-2 control-label'>TimeStamp</label><input class='form-control' id='TimeStamp"+listnum+"' name='TimeStamp' type='text'></div></div></div>");
 
          
          moldSelectInitafter('{{.molds}}')
@@ -261,6 +306,8 @@
             var machineidstring = "#MachineId"+i 
             var moldnumberstring = "#MoldNumber"+i 
             var timestring = "#TimeStart"+i 
+            var timeendstring = "#TimeEnd"+i 
+            var timestampstring = "#TimeStamp"+i 
             
             console.log($(moldidstring).val())
             $("#Qty").text($(qtrstring).text());
@@ -280,7 +327,13 @@
 
             $("#TimeStart").text($(timestring).text());
             $("#TimeStart").val($(timestring).val());
+
+            $("#TimeEnd").text($(timeendstring).text());
+            $("#TimeEnd").val($(timeendstring).val());
             
+            $("#TimeStamp").text($(timestampstring).text());
+            $("#TimeStamp").val($(timestampstring).val());
+
             $("#thisForm").submit();
 
         }		

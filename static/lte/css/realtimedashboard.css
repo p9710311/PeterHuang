@@ -53,8 +53,8 @@
 .statistical-board{
     width: 100%;
     display: grid;
-    -ms-grid-columns:1fr 1fr 1fr 1fr 1fr 10% 15% 10%;
-        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 10% 15% 10%;
+    -ms-grid-columns:1fr 1fr 1fr 1fr 1fr 10% 15% 15% 10%;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 10% 15% 15% 10%;
 }
 
 .statistical-board .small-box{
@@ -64,9 +64,10 @@
     /* align-self: auto; */
     align-items: center;
 }
-.statistical-board .small-box.addMargin{
+.statistical-board .small-box.addMargin.select-box{
     margin-left: 64px;
 }
+
 .small-box > .inner {
     display: flex;
     justify-content: center;

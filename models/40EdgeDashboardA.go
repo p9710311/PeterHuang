@@ -33,6 +33,7 @@ type DashboardA struct {
 	ExcuteQty      string //(訂單)已生產模次
 	Qty            string //訂單數量
 	FixQty         string
+	Group          int
 	//各種狀態
 	ProgressHoliday  string
 	ProgressDowntime string

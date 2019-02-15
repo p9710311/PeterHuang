@@ -85,7 +85,7 @@
             cookie: true,
             classes: 'table table-bordered table-hover',
             undefinedText: '',
-            sortName: 'Id',
+            sortName: 'TimeStamp',
             sortOrder: 'desc',
             rowAttributes: function (row, index) {
                 return { 'data-pk': row.Id }
@@ -120,7 +120,7 @@
                 field: 'TimeStart',
                 title: '開始時間',
                 align: 'center',
-                sortable: true,
+                // sortable: true,
             // }, {
             //     field: 'Interval',
             //     title: '所需時間',
@@ -132,6 +132,11 @@
             //     align: 'center',
             //     sortable: true,
             //     editable: editable4Seq
+            }, {
+                field: 'TimeEnd',
+                title: '結束時間',
+                align: 'center',
+                // sortable: true,
             }, {
                 field: 'operate',
                 title: '操作',

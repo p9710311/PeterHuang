@@ -34,11 +34,29 @@
               var valute = $("#TimeStartinput").val()
               var checkday = parseInt(valute.substring(11, 13));
               var inputval = valute.substring(0, 10)+" --- "+valute.substring(11, 16)
+
+              var DataTime = new Date(valute)
+            //   console.log(DataTime)
+              var timestamp = Math.floor(DataTime / 1000);
+              $("#TimeStamp").val(timestamp)
+              $("#TimeStamp").text(timestamp)
+            //   console.log(timestamp)
               
               $("#TimeStart").val(inputval)
               $("#TimeStart").text(inputval)
+              $("#TimeEndinput").val(valute)
+              $("#TimeEnd").val(inputval)
+              $("#TimeEnd").text(inputval)
 
-            
+          })
+
+          $("#TimeEndinput").change(function(){
+              var valute = $("#TimeEndinput").val()
+              var checkday = parseInt(valute.substring(11, 13));
+              var inputval = valute.substring(0, 10)+" --- "+valute.substring(11, 16)
+              
+              $("#TimeEnd").val(inputval)
+              $("#TimeEnd").text(inputval)
           })
          
     })
@@ -50,6 +68,10 @@
         var timestring =$("#TimeStart").val()
         timestring = timestring.substr(0, 10)+"T"+ timestring.substr(15, 20)
         $("#TimeStartinput").val( timestring)
+
+        var timeendstring =$("#TimeEnd").val()
+        timeendstring = timeendstring.substr(0, 10)+"T"+ timeendstring.substr(15, 20)
+        $("#TimeEndinput").val( timeendstring)
     }   
     function moldSelectInit(selecteds){
         var url = '{{urlfor "MoldController.DataList"}}';
