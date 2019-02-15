@@ -7,6 +7,8 @@ $(function () {
             var data = res.rows;
             // 跑狀態卡片
             data.forEach(item => {
+                //車間判斷if//
+                /************************************************/
                 $('.board').append(`
                     <div class="card">
                         <div class="card-title card-header ${`index` + item.Id}" style="background:${statusColor(item.StatusColor)}">
