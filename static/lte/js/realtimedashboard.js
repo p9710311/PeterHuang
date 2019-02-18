@@ -85,9 +85,23 @@ $(function () {
         var start = init * size;
         var end = start + size;
         // 使用陣列 slice 方法 取出資料
+        var showgroup= $("#Group").val() 
+        // console.log(showgroup)
         data.slice(start, end).forEach(item => {
+            showgroupint=parseInt(showgroup, 10)
+                    
+            if(showgroupint==0){
+               
+                console.log("alllwalala")
+            }else{
+                if(showgroup==item.Group){
+                    console.log("walala")
+
+                }
+                 
+            }
             $('.pageBoard').append(`
-                    <div class="card" id="${item.MacAddress+ item.Group}">
+                    <div class="card" id="${item.MacAddress+ item.Group+1}">
                         <div class="card-title card-header ${`index` + item.Id}" style="background:${statusColor(item.StatusColor)}">
                             <div class="number ${`index` + item.Id}">${item.MachineNumber}</div>
                             <div class="name ${`index` + item.Id}">${item.MachineName}</div>
@@ -117,7 +131,8 @@ $(function () {
                         </div>
                     </div>
                 `);
-        })
+            
+            })
 
     }
 
@@ -126,10 +141,11 @@ $(function () {
         $.get(url, (res) => {
             var data = res.rows;
             var showgroup= $("#Group").val() 
-            //  console.log($("#Group").val() )
+            //   console.log($("#Group").val() )
             if(showgroup=="0"){
                 data.forEach(item => {
                     $("#"+item.MacAddress+item.Group).show();
+                    $("#"+item.MacAddress+item.Group+1).show();
                                 // card-header
                                 $(`.card > .card-title.index${item.Id}`).css({ 'background': statusColor(item.StatusColor) });
                                 $(`.card > .card-title > .number.index${item.Id}`).html(item.MachineNumber);
@@ -156,13 +172,18 @@ $(function () {
                             });
              }else if(showgroup!="0"){
                 data.forEach(item => {
+                  
                     showgroupint=parseInt(showgroup, 10)
                     
                     if(item.Group!=showgroupint)
                     {
-                         $("#"+item.MacAddress+item.Group).hide();
-                    }else{
+                        $("#"+item.MacAddress+item.Group).hide();
+                        $("#"+item.MacAddress+item.Group+1).hide();
+                       
+                        //  console.log("walalalala")
+                     }else{
                          $("#"+item.MacAddress+item.Group).show();
+                         $("#"+item.MacAddress+item.Group+1).show();
                     }
                                 // card-header
                                 $(`.card > .card-title.index${item.Id}`).css({ 'background': statusColor(item.StatusColor) });
@@ -189,12 +210,10 @@ $(function () {
                                 $(`.card-footer > .progress > .running${item.Id}`).css({ 'width': stringtofloatconverse(item.Progress) + '%' });
                             });
             }
-            
-
             statistical(data)
         });
 
-    }, 5000);
+    }, 1000);
 
     $('#fullscreen-head').hide();
     $('.show-fullscreen').hide();
@@ -231,6 +250,7 @@ $(function () {
 
     setInterval(function () {
         currentTime();
+        
     }, 1000);
 
 })
@@ -253,6 +273,39 @@ $('#openfullscreen').on('click', (e) => {
     }
 
 });
+function addcard(item){
+    $('.board').append(`
+                    <div class="card" id="${item.MacAddress+ item.Group}">
+                        <div class="card-title card-header ${`index` + item.Id}" style="background:${statusColor(item.StatusColor)}">
+                            <div class="number ${`index` + item.Id}">${item.MachineNumber}</div>
+                            <div class="name ${`index` + item.Id}">${item.MachineName}</div>
+                        </div>
+                        <div class="card-content">
+                            <div class="info info-head">
+                                <div class="number ${`index` + item.Id}">${item.MoldNumber ? item.MoldNumber : ""}</div>
+                                <div class="name ${`index` + item.Id}">${item.Cycletime ? item.Cycletime + 's': ""}</div>
+                            </div>
+                            <div class="progress-circle" >
+                                <div class="circle ${`index` + item.Id}" style="border-color:${statusColor(item.StatusColor)}">
+                                    <div class="${`progress` + item.Id}">${item.Progress ? item.Progress + '%' : ""}</div>
+                                    <div class="${`planproduction` + item.Id}">${item.PlanProduction ? item.PlanProduction : ""}</div>
+                                    <div class="${`plantimes` + item.Id}">${stringtotime(item.PlanTimes) ? stringtotime(item.PlanTimes) : ""}</div>
+                                    <div class="${`status_text` + item.Id}">${showStatusText(item.MoldNumber, item.StatusColor)}</div>
+                                </div>
+                            </div>
+                            <div class="info info-foot">
+                                <div class="number ${`index` + item.Id}">${item.ExcuteQty}</div>
+                                <div class="name ${`index` + item.Id}">${item.Qty}</div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="progress">
+                                <div class="progress-bar ${`running` + item.Id}"" role="progressbar" style="width: ${stringtofloatconverse(item.Progress)}%; background:#3d91bc" aria-valuenow="${stringtofloatconverse(item.Progress)}" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                    </div>
+                `);
+}
 
 // 統計狀態
 function statistical(data) {
