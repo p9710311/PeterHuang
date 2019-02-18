@@ -121,6 +121,11 @@
                 align: 'center',
                 width: '390px',
             }, {
+                field: 'Qty',
+                title: '生產量',
+                align: 'center',
+                // width: '390px',
+            },{
                 field: 'FixQty',
                 title: '修正生產量',
                 align: 'center',
@@ -252,6 +257,8 @@
             }
         });
     }
+
+    
 
     function DeleteFun() {
         var url = '{{ urlfor "DashboardAController.Delete"}}';

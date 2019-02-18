@@ -38,6 +38,7 @@ func (c *DashboardAController) Index2() {
 	c.LayoutSections["footerjs"] = "dashboarda/index_footerjs.html"
 	//頁面裡按鈕權限控制
 	c.Data["canEdit"] = c.checkActionAuthor("DashboardAController", "Edit")
+	
 	c.Data["canDelete"] = c.checkActionAuthor("DashboardAController", "Delete")
 	c.Data["canAllocate"] = c.checkActionAuthor("DashboardAController", "Edit2")
 }
@@ -61,6 +62,7 @@ func (c *DashboardAController) DataList() {
 	//定義返回的數據結構
 	c.jsonResult(enums.JRCodeSucc, "", data)
 }
+
 
 //Edit 添加、編輯角色界面
 func (c *DashboardAController) Edit() {

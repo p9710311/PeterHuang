@@ -13,6 +13,17 @@
         macSelectInit();   
         nameSelectInit(); 
         moldSelectInit('{{.moldnames}}');
+        // console.log($( "#Progress" ).val())
+        if($( "#Progress" ).val()==""){//新增，progress預設為100
+            $( "#Progress" ).val(100)
+            $( "#Progress" ).text(100)
+        }
+        if($( "#FixQty" ).val()==""){//新增，FixQty預設為100
+            $( "#FixQty" ).val(0)
+            $( "#FixQty" ).text(0)
+        }
+ 
+
         // qtySelectInit();
     })	
 
@@ -93,8 +104,8 @@
                 });
                 $select.html(html.join(''));
                 $select.selectpicker({liveSearch:true});
-                  console.log("machine selecteds: "+selecteds)
-                console.log("machine selecteds type: "+ typeof selecteds)
+                //   console.log("machine selecteds: "+selecteds)
+                // console.log("machine selecteds type: "+ typeof selecteds)
                
                 $select.selectpicker('val',selecteds.split(','));
             }
