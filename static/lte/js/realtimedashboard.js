@@ -7,10 +7,9 @@ $(function () {
             var data = res.rows;
             // 跑狀態卡片
             data.forEach(item => {
-                //車間判斷if//
-                /************************************************/
+                // console.log(item)
                 $('.board').append(`
-                    <div class="card">
+                    <div class="card" id="${item.MacAddress+ item.Group}">
                         <div class="card-title card-header ${`index` + item.Id}" style="background:${statusColor(item.StatusColor)}">
                             <div class="number ${`index` + item.Id}">${item.MachineNumber}</div>
                             <div class="name ${`index` + item.Id}">${item.MachineName}</div>
@@ -46,7 +45,7 @@ $(function () {
             var size = 24;
             var init = 0;
             var totalPage = Math.ceil(data.length / 24)
-            console.log(totalPage)
+            // console.log(totalPage)
             $('.Add').on('click', function () {
                 init++;
                 $('.pageBoard > div').remove();
@@ -71,8 +70,8 @@ $(function () {
     };
     // 執行分頁
     function count(init, size, data, totalPage) {
-        console.log(init)
-        console.log(data)
+        // console.log(init)
+        // console.log(data)
         $('.reducer').show()
         $('.Add').show()
         if (init === 0) {
@@ -88,7 +87,7 @@ $(function () {
         // 使用陣列 slice 方法 取出資料
         data.slice(start, end).forEach(item => {
             $('.pageBoard').append(`
-                    <div class="card">
+                    <div class="card" id="${item.MacAddress+ item.Group}">
                         <div class="card-title card-header ${`index` + item.Id}" style="background:${statusColor(item.StatusColor)}">
                             <div class="number ${`index` + item.Id}">${item.MachineNumber}</div>
                             <div class="name ${`index` + item.Id}">${item.MachineName}</div>
@@ -126,36 +125,76 @@ $(function () {
     setInterval(function () {
         $.get(url, (res) => {
             var data = res.rows;
-            data.forEach(item => {
-                // card-header
-                $(`.card > .card-title.index${item.Id}`).css({ 'background': statusColor(item.StatusColor) });
-                $(`.card > .card-title > .number.index${item.Id}`).html(item.MachineNumber);
-                $(`.card > .card-title > .name.index${item.Id}`).html(item.MachineName);
-                // card-content
-                // info-head
-                $(`.card-content > .info-head > .number.index${item.Id}`).html(item.MoldNumber);
-                $(`.card-content > .info-head > .name.index${item.Id}`).html(item.Cycletime + 's');
-                // progress-circle
-                $(`.card-content > .progress-circle > .circle.index${item.Id}`).css({ 'border-color': statusColor(item.StatusColor) });
-                $(`.card-content > .progress-circle > .circle > .progress${item.Id}`).html(item.Progress ? item.Progress + "%" : " ");
-                $(`.card-content > .progress-circle > .circle > .planproduction${item.Id}`).html(item.PlanProduction);
-                $(`.card-content > .progress-circle > .circle > .plantimes${item.Id}`).html(stringtotime(item.PlanTimes));
-                $(`.card-content > .progress-circle > .circle > .statustext${item.Id}`).html(showStatusText(item.MoldNumber, item.StatusColor));
-                //  info-foot
-                $(`.card-content > .info-foot > .number.index${item.Id}`).html(item.ExcuteQty);
-                $(`.card-content > .info-foot > .name.index${item.Id}`).html(item.Qty);
-                // card-footer
-                $(`.card-footer > .progress > .holiday${item.Id}`).css({ 'width': item.ProgressHoliday + '%' });
-                $(`.card-footer > .progress > .downtime${item.Id}`).css({ 'width': item.ProgressDowntime + '%' });
-                $(`.card-footer > .progress > .idle${item.Id}`).css({ 'width': item.ProgressIdle + '%' });
-                $(`.card-footer > .progress > .abnormal${item.Id}`).css({ 'width': item.ProgressAbnormal + '%' });
-                $(`.card-footer > .progress > .running${item.Id}`).css({ 'width': stringtofloatconverse(item.Progress) + '%' });
-            });
+            var showgroup= $("#Group").val() 
+            //  console.log($("#Group").val() )
+            if(showgroup=="0"){
+                data.forEach(item => {
+                    $("#"+item.MacAddress+item.Group).show();
+                                // card-header
+                                $(`.card > .card-title.index${item.Id}`).css({ 'background': statusColor(item.StatusColor) });
+                                $(`.card > .card-title > .number.index${item.Id}`).html(item.MachineNumber);
+                                $(`.card > .card-title > .name.index${item.Id}`).html(item.MachineName);
+                                // card-content
+                                // info-head
+                                $(`.card-content > .info-head > .number.index${item.Id}`).html(item.MoldNumber);
+                                $(`.card-content > .info-head > .name.index${item.Id}`).html(item.Cycletime + 's');
+                                // progress-circle
+                                $(`.card-content > .progress-circle > .circle.index${item.Id}`).css({ 'border-color': statusColor(item.StatusColor) });
+                                $(`.card-content > .progress-circle > .circle > .progress${item.Id}`).html(item.Progress ? item.Progress + "%" : " ");
+                                $(`.card-content > .progress-circle > .circle > .planproduction${item.Id}`).html(item.PlanProduction);
+                                $(`.card-content > .progress-circle > .circle > .plantimes${item.Id}`).html(stringtotime(item.PlanTimes));
+                                $(`.card-content > .progress-circle > .circle > .statustext${item.Id}`).html(showStatusText(item.MoldNumber, item.StatusColor));
+                                //  info-foot
+                                $(`.card-content > .info-foot > .number.index${item.Id}`).html(item.ExcuteQty);
+                                $(`.card-content > .info-foot > .name.index${item.Id}`).html(item.Qty);
+                                // card-footer
+                                $(`.card-footer > .progress > .holiday${item.Id}`).css({ 'width': item.ProgressHoliday + '%' });
+                                $(`.card-footer > .progress > .downtime${item.Id}`).css({ 'width': item.ProgressDowntime + '%' });
+                                $(`.card-footer > .progress > .idle${item.Id}`).css({ 'width': item.ProgressIdle + '%' });
+                                $(`.card-footer > .progress > .abnormal${item.Id}`).css({ 'width': item.ProgressAbnormal + '%' });
+                                $(`.card-footer > .progress > .running${item.Id}`).css({ 'width': stringtofloatconverse(item.Progress) + '%' });
+                            });
+             }else if(showgroup!="0"){
+                data.forEach(item => {
+                    showgroupint=parseInt(showgroup, 10)
+                    
+                    if(item.Group!=showgroupint)
+                    {
+                         $("#"+item.MacAddress+item.Group).hide();
+                    }else{
+                         $("#"+item.MacAddress+item.Group).show();
+                    }
+                                // card-header
+                                $(`.card > .card-title.index${item.Id}`).css({ 'background': statusColor(item.StatusColor) });
+                                $(`.card > .card-title > .number.index${item.Id}`).html(item.MachineNumber);
+                                $(`.card > .card-title > .name.index${item.Id}`).html(item.MachineName);
+                                // card-content
+                                // info-head
+                                $(`.card-content > .info-head > .number.index${item.Id}`).html(item.MoldNumber);
+                                $(`.card-content > .info-head > .name.index${item.Id}`).html(item.Cycletime + 's');
+                                // progress-circle
+                                $(`.card-content > .progress-circle > .circle.index${item.Id}`).css({ 'border-color': statusColor(item.StatusColor) });
+                                $(`.card-content > .progress-circle > .circle > .progress${item.Id}`).html(item.Progress ? item.Progress + "%" : " ");
+                                $(`.card-content > .progress-circle > .circle > .planproduction${item.Id}`).html(item.PlanProduction);
+                                $(`.card-content > .progress-circle > .circle > .plantimes${item.Id}`).html(stringtotime(item.PlanTimes));
+                                $(`.card-content > .progress-circle > .circle > .statustext${item.Id}`).html(showStatusText(item.MoldNumber, item.StatusColor));
+                                //  info-foot
+                                $(`.card-content > .info-foot > .number.index${item.Id}`).html(item.ExcuteQty);
+                                $(`.card-content > .info-foot > .name.index${item.Id}`).html(item.Qty);
+                                // card-footer
+                                $(`.card-footer > .progress > .holiday${item.Id}`).css({ 'width': item.ProgressHoliday + '%' });
+                                $(`.card-footer > .progress > .downtime${item.Id}`).css({ 'width': item.ProgressDowntime + '%' });
+                                $(`.card-footer > .progress > .idle${item.Id}`).css({ 'width': item.ProgressIdle + '%' });
+                                $(`.card-footer > .progress > .abnormal${item.Id}`).css({ 'width': item.ProgressAbnormal + '%' });
+                                $(`.card-footer > .progress > .running${item.Id}`).css({ 'width': stringtofloatconverse(item.Progress) + '%' });
+                            });
+            }
+            
 
             statistical(data)
         });
 
-    }, 10000);
+    }, 5000);
 
     $('#fullscreen-head').hide();
     $('.show-fullscreen').hide();
