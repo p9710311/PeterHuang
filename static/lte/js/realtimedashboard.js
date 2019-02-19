@@ -90,16 +90,16 @@ $(function () {
         data.slice(start, end).forEach(item => {
             showgroupint=parseInt(showgroup, 10)
                     
-            if(showgroupint==0){
+            // if(showgroupint==0){
                
-                console.log("alllwalala")
-            }else{
-                if(showgroup==item.Group){
-                    console.log("walala")
+            //     console.log("alllwalala")
+            // }else{
+            //     if(showgroup==item.Group){
+            //         console.log("walala")
 
-                }
+            //     }
                  
-            }
+            // }
             $('.pageBoard').append(`
                     <div class="card" id="${item.MacAddress+ item.Group+1}">
                         <div class="card-title card-header ${`index` + item.Id}" style="background:${statusColor(item.StatusColor)}">
@@ -213,7 +213,7 @@ $(function () {
             statistical(data)
         });
 
-    }, 1000);
+    }, 5000);
 
     $('#fullscreen-head').hide();
     $('.show-fullscreen').hide();
