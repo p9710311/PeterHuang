@@ -71,7 +71,7 @@
             queryParamsType: 'limit',
             queryParams: function (params) {
                 //params的自帶參數類型由queryParamsType決定
-                params.NameLike = $('.searchForm input[name="Name"]').val();
+                params.MoldNumberLike = $('.searchForm input[name="Name"]').val();
                 return params;
             },
             pagination: true,
@@ -235,7 +235,7 @@
             shade: 0.2,
             maxmin: true,
             shift: 1,
-            area: ['80%', '70%'],
+            area: ['65%', '70%'],
             content: url,
             btn: ['儲存', '關閉'],
             yes: function (index, layero) {
