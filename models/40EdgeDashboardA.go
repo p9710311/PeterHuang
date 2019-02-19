@@ -14,6 +14,7 @@ func (a *DashboardA) TableName() string {
 // DashboardAQueryParam 用於查詢的類
 type DashboardAQueryParam struct {
 	BaseQueryParam
+	MachineNumberLike string
 }
 
 // DashboardA 結構
@@ -57,6 +58,19 @@ type DashboardA struct {
 func DashboardAList(params *DashboardAQueryParam) ([]*DashboardA, int64) {
 	query := orm.NewOrm().QueryTable(DashboardATBName()).OrderBy("Seq")
 	data := make([]*DashboardA, 0)
+
+	//默認排序
+	sortorder := "Id"
+	switch params.Sort {
+	case "Id":
+		sortorder = "Id"
+	case "Seq":
+		sortorder = "Seq"
+	}
+	if params.Order == "desc" {
+		sortorder = "-" + sortorder
+	}
+	query = query.Filter("machine_number__istartswith", params.MachineNumberLike)
 
 	total, _ := query.Count()
 	query.Limit(params.Limit, params.Offset).All(&data)

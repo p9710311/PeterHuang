@@ -14,8 +14,9 @@ func (a *Machine) TableName() string {
 // BackendUserQueryParam 用於查詢的類
 type MachineQueryParam struct {
 	BaseQueryParam
-	NameLike   string
-	NumberLike string
+	MachineNumberLike string
+	MachineNameLike   string
+	BrandLike         string
 }
 
 // Machine 實體類
@@ -49,7 +50,9 @@ func MachinePageList(params *MachineQueryParam) ([]*Machine, int64) {
 	if params.Order == "desc" {
 		sortorder = "-" + sortorder
 	}
-	// query = query.Filter("macaddress__istartswith", params.MacAddressLike)
+	query = query.Filter("machine_number__istartswith", params.MachineNumberLike)
+	query = query.Filter("machine_name__istartswith", params.MachineNameLike)
+	query = query.Filter("brand__istartswith", params.BrandLike)
 	total, _ := query.Count()
 	query.OrderBy(sortorder).Limit(params.Limit, params.Offset).All(&data)
 	return data, total

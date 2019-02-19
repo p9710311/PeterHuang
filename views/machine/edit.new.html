@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" style="width:97%;text-align:center;">
         <!-- form start -->
         <button type="button" class="btn btn-primary btn-sm" onclick=NewDiv()>新增一筆</button>
         <button type="button" class="btn btn-primary btn-sm" onclick=DelDiv()>刪除一筆</button>
@@ -6,14 +6,14 @@
            
             
             <!-- <input type="hidden" Name="Id" id="Id" value="{{.m.Id}}"> -->
-            <div class="form-group">
+            <div class="form-group" style="width:97%;text-align:center;">
                 <div class="col-xs-2"> </div>
                 <label class="col-sm-2 control-label" >射出機編號</label>
                 <label class="col-sm-2 control-label" >射出機名稱</label>
                 <label class="col-sm-2 control-label" >射出機品牌</label>
                 <label class="col-sm-2 control-label" >射出機 ID</label>
             </div>
-            <div class="form-group" id="first" name="first">
+            <div class="form-group" id="first" name="first" >
                 <div class="form-inline" >
                     <div class="col-xs-2"> </div>
                     <div class="col-xs-2">
@@ -26,7 +26,9 @@
                         <input  type="text" id="focusedInputBrand" name="Brand" class="form-control" placeholder="" value="{{.m.Brand}}">
                     </div>
                     <div class="col-xs-2">
-                        <select  name="CollectionIds" id="Collections" class="form-control" ></select>
+                        <select  name="CollectionIds" id="Collections" class="form-control">
+                            <option>--</option>
+                        </select>
                     </div>
 
                     <div class="form-group" style="display:none">

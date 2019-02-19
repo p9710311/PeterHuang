@@ -10,7 +10,8 @@ func (a *Schedule) TableName() string {
 // ScheduleQueryParam 用於查詢的類
 type ScheduleQueryParam struct {
 	BaseQueryParam
-	MoldNumberLike string
+	MoldNumberLike  string
+	MachineNameLike string
 }
 
 // Schedule 實體類
@@ -50,6 +51,7 @@ func SchedulePageList(params *ScheduleQueryParam) ([]*Schedule, int64) {
 		sortorder = "-" + sortorder
 	}
 	query = query.Filter("moldnumber__istartswith", params.MoldNumberLike)
+	query = query.Filter("machine_name__istartswith", params.MachineNameLike)
 	total, _ := query.Count()
 	// query.OrderBy(sortorder).Limit(params.Limit, params.Offset).All(&data)
 	query.Limit(params.Limit, params.Offset).All(&data)

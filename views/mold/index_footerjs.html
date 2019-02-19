@@ -71,8 +71,9 @@
             queryParamsType: 'limit',
             queryParams: function (params) {
                 //params的自帶參數類型由queryParamsType決定
-                params.NameLike = $('.searchForm input[name="Name"]').val();
-                params.NumberLike = $('.searchForm input[name="Number"]').val();
+                params.NumberLike = $('.searchForm input[name="Name"]').val();
+                params.NameLike = $('.searchForm input[name="ProductName"]').val();
+                params.ClientNameLike = $('.searchForm input[name="CosName"]').val();
                 return params;
             },
             pagination: true,

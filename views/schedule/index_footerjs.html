@@ -72,6 +72,7 @@
             queryParams: function (params) {
                 //params的自帶參數類型由queryParamsType決定
                 params.MoldNumberLike = $('.searchForm input[name="Name"]').val();
+                params.MachineNameLike = $('.searchForm input[name="MachineName"]').val();
                 return params;
             },
             pagination: true,

@@ -25,7 +25,7 @@ func (c *MachineController) Prepare() {
 
 //Index 角色管理首頁
 func (c *MachineController) Index() {
-	c.Data["showMoreQuery"] = false
+	c.Data["showMoreQuery"] = true //搜尋更多選項
 	c.Data["activeSidebarUrl"] = c.URLFor(c.controllerName + "." + c.actionName)
 	c.setTpl()
 	c.LayoutSections = make(map[string]string)

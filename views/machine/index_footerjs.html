@@ -71,7 +71,9 @@
             queryParamsType: 'limit',
             queryParams: function (params) {
                 //params的自帶參數類型由queryParamsType決定
-                params.NameLike = $('.searchForm input[name="Name"]').val();
+                params.MachineNumberLike = $('.searchForm input[name="Name"]').val();
+                params.MachineNameLike = $('.searchForm input[name="MachineName"]').val();
+                params.BrandLike = $('.searchForm input[name="Brand"]').val();
                 return params;
             },
             pagination: true,
@@ -232,7 +234,7 @@
             shade: 0.2,
             maxmin: true,
             shift: 1,
-            area: ['70%', '80%'],
+            area: ['60%', '80%'],
             content: url,
             btn: ['儲存','關閉'],
             yes: function (index, layero) {
