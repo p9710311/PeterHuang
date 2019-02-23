@@ -10,6 +10,10 @@
         validateInfo();  
         moldSelectInit('{{.molds}}');
         // qtySelectInit();
+       
+        $( "#Progress" ).val(100)
+        $( "#Progress" ).text(100)
+        
     })	
     function ChangeFunction2(){
         var x = $( "#Molds option:selected").text();
