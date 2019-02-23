@@ -39,7 +39,6 @@ func (c *DashboardAController) Index2() {
 	c.LayoutSections["footerjs"] = "dashboarda/index_footerjs.html"
 	//頁面裡按鈕權限控制
 	c.Data["canEdit"] = c.checkActionAuthor("DashboardAController", "Edit")
-
 	c.Data["canDelete"] = c.checkActionAuthor("DashboardAController", "Delete")
 	c.Data["canAllocate"] = c.checkActionAuthor("DashboardAController", "Edit2")
 }

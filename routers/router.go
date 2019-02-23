@@ -93,4 +93,14 @@ func init() {
 	beego.Router("/schedule/delete", &controllers.ScheduleController{}, "Post:Delete")
 	beego.Router("/schedule/datalist", &controllers.ScheduleController{}, "Post:DataList")
 	beego.Router("/schedule/updateseq", &controllers.ScheduleController{}, "Post:UpdateSeq")
+
+	// Machineanalyze
+	beego.Router("/machineanalyze/index", &controllers.MachineAnalyzeController{}, "*:Index")
+
+	// MoldAnalyze
+	beego.Router("/moldanalyze/index", &controllers.MoldAnalyzeController{}, "*:Index")
+
+	// ScheduleAnalyze
+	beego.Router("/scheduleanalyze/index", &controllers.ScheduleAnalyzeController{}, "*:Index")
+
 }
